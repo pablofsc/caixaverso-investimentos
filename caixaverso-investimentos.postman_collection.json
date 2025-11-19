@@ -1,0 +1,56 @@
+{
+	"info": {
+		"_postman_id": "434da4c5-081a-4641-9976-bf1403918ffa",
+		"name": "caixaverso-investimentos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48640201",
+		"_collection_link": "https://pablofsc-02d1dac1-5353283.postman.co/workspace/Pablo-Felipe's-Workspace~0d010ca0-2264-4c9b-88cd-5f754b9952b3/collection/48640201-434da4c5-081a-4641-9976-bf1403918ffa?action=share&source=collection_link&creator=48640201"
+	},
+	"item": [
+		{
+			"name": "simular-investimento",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"clienteId\": 123,\r\n    \"valor\": 10000.00,\r\n    \"prazoMeses\": 12,\r\n    \"tipoProduto\": \"CDB\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/simular-investimento",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"simular-investimento"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "simulacoes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/simulacoes",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"simulacoes"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
