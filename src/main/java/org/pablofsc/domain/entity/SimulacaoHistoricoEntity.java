@@ -30,8 +30,9 @@ public class SimulacaoHistoricoEntity {
   @Column(columnDefinition = "INTEGER PRIMARY KEY AUTOINCREMENT")
   private Long id;
 
-  @Column(name = "cliente_id", nullable = false)
-  private Long clienteId;
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "fk_simulacao_cliente"))
+  private ClienteEntity cliente;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(name = "fk_simulacao_produto"))

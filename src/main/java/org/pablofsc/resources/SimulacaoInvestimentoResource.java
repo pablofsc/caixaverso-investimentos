@@ -7,6 +7,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.pablofsc.domain.exception.ClienteNaoEncontradoException;
 import org.pablofsc.domain.request.SimulacaoInvestimentoRequest;
 import org.pablofsc.domain.response.SimulacaoInvestimentoResponse;
 import org.pablofsc.service.SimulacaoInvestimentoService;
@@ -21,7 +22,16 @@ public class SimulacaoInvestimentoResource {
 
   @POST
   public Response simularInvestimento(SimulacaoInvestimentoRequest request) {
-    SimulacaoInvestimentoResponse response = service.simularInvestimento(request);
-    return Response.ok(response).build();
+    try {
+      SimulacaoInvestimentoResponse response = service.simularInvestimento(request);
+      return Response.ok(response).build();
+    } catch (ClienteNaoEncontradoException e) {
+      return Response.status(Response.Status.NOT_FOUND)
+          .entity(new ErrorResponse(e.getMessage()))
+          .build();
+    }
+  }
+
+  record ErrorResponse(String mensagem) {
   }
 }

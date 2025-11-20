@@ -34,7 +34,7 @@ public class SimulacaoHistoricoService {
 
     return new SimulacaoHistoricoResponse(
         entity.getId(),
-        entity.getClienteId(),
+        entity.getCliente() != null ? entity.getCliente().getId() : null,
         entity.getProduto() != null ? entity.getProduto().getNome() : "Produto removido",
         entity.getValorInvestido(),
         entity.getValorFinal(),
