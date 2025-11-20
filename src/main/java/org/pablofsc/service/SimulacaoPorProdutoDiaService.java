@@ -3,6 +3,7 @@ package org.pablofsc.service;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import org.pablofsc.domain.entity.SimulacaoHistoricoEntity;
 import org.pablofsc.domain.response.SimulacaoPorProdutoDiaResponse;
 import org.pablofsc.repository.SimulacaoHistoricoRepository;
@@ -21,6 +22,7 @@ public class SimulacaoPorProdutoDiaService {
   @Inject
   SimulacaoHistoricoRepository repository;
 
+  @Transactional
   public List<SimulacaoPorProdutoDiaResponse> listarSimulacoesPorProdutoDia() {
     List<SimulacaoHistoricoEntity> historicos = repository.listAll(Sort.by("dataSimulacao").descending());
 
@@ -53,7 +55,8 @@ public class SimulacaoPorProdutoDiaService {
   }
 
   private ProdutoDiaKey produtoDiaKey(SimulacaoHistoricoEntity entity) {
-    return new ProdutoDiaKey(entity.getProduto(), entity.getDataSimulacao().toLocalDate());
+    String nomeProduto = entity.getProduto() != null ? entity.getProduto().getNome() : "Produto removido";
+    return new ProdutoDiaKey(nomeProduto, entity.getDataSimulacao().toLocalDate());
   }
 
   private Comparator<SimulacaoPorProdutoDiaResponse> comparatorPorDataEEProduto() {
