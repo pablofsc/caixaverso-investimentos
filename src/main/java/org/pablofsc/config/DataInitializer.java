@@ -33,7 +33,7 @@ public class DataInitializer {
     produtoRepository.persist(new ProdutoEntity(101L, "CDB Caixa 2026", "CDB", 0.12, "Baixo"));
     produtoRepository.persist(new ProdutoEntity(102L, "Fundo XPTO", "Fundo", 0.18, "Alto"));
     produtoRepository.persist(new ProdutoEntity(103L, "Tesouro Direto IPCA", "Renda Fixa", 0.08, "Muito Baixo"));
-    produtoRepository.persist(new ProdutoEntity(104L, "Fundo Ações Brasil", "Ações", 0.25, "Muito Alto"));
+    produtoRepository.persist(new ProdutoEntity(104L, "Fundo RF", "Renda Fixa", 0.25, "Muito Alto"));
     produtoRepository.persist(new ProdutoEntity(105L, "LCI Banco do Brasil", "Renda Fixa", 0.10, "Baixo"));
   }
 

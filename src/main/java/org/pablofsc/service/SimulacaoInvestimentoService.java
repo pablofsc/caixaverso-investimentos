@@ -34,6 +34,9 @@ public class SimulacaoInvestimentoService {
   @Inject
   ValidacaoSimulacaoService validacaoService;
 
+  @Inject
+  CalculoSimulacaoService calculoService;
+
   @Transactional
   public SimulacaoInvestimentoResponse simularInvestimento(SimulacaoInvestimentoRequest request) {
     // Validar parâmetros de entrada (valor, prazo, tipoProduto)
@@ -59,11 +62,17 @@ public class SimulacaoInvestimentoService {
         produtoPersistido.getRentabilidade(),
         produtoPersistido.getRisco());
 
-    // Calcular simulação (por enquanto mockado)
+    // Calcular simulação com lógica real
+    Double valorFinal = calculoService.calcularValorFinal(
+        request.getValor(),
+        produtoPersistido.getRentabilidade(),
+        request.getPrazoMeses(),
+        produtoPersistido.getTipo());
+
     Simulacao resultadoSimulacao = new Simulacao(
-        11200.00,
-        0.12,
-        12);
+        valorFinal,
+        produtoPersistido.getRentabilidade(),
+        request.getPrazoMeses());
 
     ZonedDateTime dataSimulacao = ZonedDateTime.now(ZoneOffset.UTC);
 
