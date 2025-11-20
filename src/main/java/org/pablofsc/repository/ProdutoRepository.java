@@ -6,4 +6,8 @@ import org.pablofsc.domain.entity.ProdutoEntity;
 
 @ApplicationScoped
 public class ProdutoRepository implements PanacheRepositoryBase<ProdutoEntity, Long> {
+
+  public ProdutoEntity findByTipo(String tipo) {
+    return find("tipo", tipo).firstResult();
+  }
 }

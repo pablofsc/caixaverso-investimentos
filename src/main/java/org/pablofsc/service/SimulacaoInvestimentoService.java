@@ -7,6 +7,7 @@ import org.pablofsc.domain.entity.ClienteEntity;
 import org.pablofsc.domain.entity.ProdutoEntity;
 import org.pablofsc.domain.entity.SimulacaoHistoricoEntity;
 import org.pablofsc.domain.exception.ClienteNaoEncontradoException;
+import org.pablofsc.domain.exception.ProdutoNaoEncontradoException;
 import org.pablofsc.domain.model.Produto;
 import org.pablofsc.domain.model.Simulacao;
 import org.pablofsc.domain.request.SimulacaoInvestimentoRequest;
@@ -30,22 +31,35 @@ public class SimulacaoInvestimentoService {
   @Inject
   ClienteRepository clienteRepository;
 
+  @Inject
+  ValidacaoSimulacaoService validacaoService;
+
   @Transactional
   public SimulacaoInvestimentoResponse simularInvestimento(SimulacaoInvestimentoRequest request) {
-      // Validar cliente
-      ClienteEntity cliente = clienteRepository.findById(request.getClienteId());
-      if (cliente == null) {
-          throw new ClienteNaoEncontradoException(request.getClienteId());
-      }
+    // Validar parâmetros de entrada (valor, prazo, tipoProduto)
+    validacaoService.validar(request);
 
-    // Dados mockados
+    // Validar cliente
+    ClienteEntity cliente = clienteRepository.findById(request.getClienteId());
+    if (cliente == null) {
+      throw new ClienteNaoEncontradoException(request.getClienteId());
+    }
+
+    // Buscar produto no DB pelo tipo
+    ProdutoEntity produtoPersistido = produtoRepository.findByTipo(request.getTipoProduto());
+    if (produtoPersistido == null) {
+      throw new ProdutoNaoEncontradoException(request.getTipoProduto());
+    }
+
+    // Converter para modelo de apresentação
     Produto produtoValidado = new Produto(
-        101L,
-        "CDB Caixa 2026",
-        "CDB",
-        0.12,
-        "Baixo");
+        produtoPersistido.getId(),
+        produtoPersistido.getNome(),
+        produtoPersistido.getTipo(),
+        produtoPersistido.getRentabilidade(),
+        produtoPersistido.getRisco());
 
+    // Calcular simulação (por enquanto mockado)
     Simulacao resultadoSimulacao = new Simulacao(
         11200.00,
         0.12,
@@ -53,15 +67,15 @@ public class SimulacaoInvestimentoService {
 
     ZonedDateTime dataSimulacao = ZonedDateTime.now(ZoneOffset.UTC);
 
-    ProdutoEntity produtoPersistido = produtoRepository.findById(produtoValidado.getId());
+    // Persistir histórico
     SimulacaoHistoricoEntity historico = SimulacaoHistoricoEntity.builder()
-            .cliente(cliente)
-            .produto(produtoPersistido)
-            .valorInvestido(request.getValor())
-            .valorFinal(resultadoSimulacao.getValorFinal())
-            .prazoMeses(resultadoSimulacao.getPrazoMeses())
-            .dataSimulacao(dataSimulacao)
-            .build();
+        .cliente(cliente)
+        .produto(produtoPersistido)
+        .valorInvestido(request.getValor())
+        .valorFinal(resultadoSimulacao.getValorFinal())
+        .prazoMeses(resultadoSimulacao.getPrazoMeses())
+        .dataSimulacao(dataSimulacao)
+        .build();
 
     historicoRepository.persistAndFlush(historico);
 
