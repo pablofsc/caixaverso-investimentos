@@ -1,6 +1,7 @@
 package org.pablofsc.domain.entity;
 
 import org.pablofsc.domain.enums.NivelRiscoEnum;
+import org.pablofsc.domain.enums.TipoProdutoEnum;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
@@ -40,10 +41,11 @@ public class ProdutoEntity extends PanacheEntityBase {
   private String nome;
 
   /**
-   * Tipo do produto (ex: CDB, Fundo, Renda Fixa).
+   * Tipo do produto.
    */
   @Column(nullable = false)
-  private String tipo;
+  @Enumerated(EnumType.STRING)
+  private TipoProdutoEnum tipo;
 
   /**
    * Rentabilidade anual do produto (ex: 0.12 = 12% a.a.).

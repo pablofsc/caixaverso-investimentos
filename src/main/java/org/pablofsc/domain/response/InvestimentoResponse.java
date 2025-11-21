@@ -3,6 +3,7 @@ package org.pablofsc.domain.response;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.pablofsc.domain.enums.TipoProdutoEnum;
 
 import java.time.LocalDate;
 
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 public class InvestimentoResponse {
 
   private Long id;
-  private String tipo;
+  private TipoProdutoEnum tipo;
   private Double valor;
   private Double rentabilidade;
   private LocalDate data;

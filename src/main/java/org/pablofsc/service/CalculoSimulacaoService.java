@@ -1,6 +1,7 @@
 package org.pablofsc.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import org.pablofsc.domain.enums.TipoProdutoEnum;
 
 @ApplicationScoped
 public class CalculoSimulacaoService {
@@ -11,10 +12,11 @@ public class CalculoSimulacaoService {
    * @param valorInicial  Valor inicial investido (R$)
    * @param rentabilidade Taxa de rentabilidade anual (ex: 0.12 = 12% a.a.)
    * @param prazoMeses    Prazo em meses
-   * @param tipo          Tipo de produto (CDB, Fundo, Renda Fixa)
+   * @param tipo          Tipo de produto
    * @return Valor final após aplicar a rentabilidade
    */
-  public Double calcularValorFinal(Double valorInicial, Double rentabilidade, Integer prazoMeses, String tipo) {
+  public Double calcularValorFinal(Double valorInicial, Double rentabilidade, Integer prazoMeses,
+      TipoProdutoEnum tipo) {
     if (rentabilidade == null || rentabilidade <= 0) {
       return arredondar(valorInicial);
     }

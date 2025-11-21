@@ -11,6 +11,7 @@ import org.pablofsc.domain.entity.InvestimentoEntity;
 import org.pablofsc.domain.entity.ProdutoEntity;
 import org.pablofsc.domain.entity.UsuarioEntity;
 import org.pablofsc.domain.enums.NivelRiscoEnum;
+import org.pablofsc.domain.enums.TipoProdutoEnum;
 import org.pablofsc.repository.ClienteRepository;
 import org.pablofsc.repository.InvestimentoRepository;
 import org.pablofsc.repository.ProdutoRepository;
@@ -61,25 +62,39 @@ public class DataInitializer {
     }
 
     // CDB (5 produtos)
-    produtoRepository.persist(new ProdutoEntity(101L, "CDB Caixa 2026", "CDB", 0.12, NivelRiscoEnum.BAIXO));
-    produtoRepository.persist(new ProdutoEntity(102L, "CDB Caixa Top", "CDB", 0.11, NivelRiscoEnum.BAIXO));
-    produtoRepository.persist(new ProdutoEntity(103L, "CDB Caixa Maneiro", "CDB", 0.13, NivelRiscoEnum.BAIXO));
-    produtoRepository.persist(new ProdutoEntity(104L, "CDB Caixa Seguríssimo", "CDB", 0.10, NivelRiscoEnum.MUITO_BAIXO));
-    produtoRepository.persist(new ProdutoEntity(105L, "CDB Caixa Dinheirão", "CDB", 0.17, NivelRiscoEnum.ALTO));
+    produtoRepository
+        .persist(new ProdutoEntity(101L, "CDB Caixa 2026", TipoProdutoEnum.CDB, 0.12, NivelRiscoEnum.BAIXO));
+    produtoRepository
+        .persist(new ProdutoEntity(102L, "CDB Caixa Top", TipoProdutoEnum.CDB, 0.11, NivelRiscoEnum.BAIXO));
+    produtoRepository
+        .persist(new ProdutoEntity(103L, "CDB Caixa Maneiro", TipoProdutoEnum.CDB, 0.13, NivelRiscoEnum.BAIXO));
+    produtoRepository.persist(
+        new ProdutoEntity(104L, "CDB Caixa Seguríssimo", TipoProdutoEnum.CDB, 0.10, NivelRiscoEnum.MUITO_BAIXO));
+    produtoRepository
+        .persist(new ProdutoEntity(105L, "CDB Caixa Dinheirão", TipoProdutoEnum.CDB, 0.17, NivelRiscoEnum.ALTO));
 
     // Fundo (5 produtos)
-    produtoRepository.persist(new ProdutoEntity(106L, "Fundo XPTO", "Fundo", 0.18, NivelRiscoEnum.ALTO));
-    produtoRepository.persist(new ProdutoEntity(107L, "Fundo Multimercado Ativo", "Fundo", 0.15, NivelRiscoEnum.ALTO));
-    produtoRepository.persist(new ProdutoEntity(108L, "Fundo Balanceado Conservador", "Fundo", 0.09, NivelRiscoEnum.BAIXO));
-    produtoRepository.persist(new ProdutoEntity(109L, "Fundo Inovação Tech", "Fundo", 0.25, NivelRiscoEnum.MUITO_ALTO));
-    produtoRepository.persist(new ProdutoEntity(110L, "Fundo Renda Variável", "Fundo", 0.20, NivelRiscoEnum.ALTO));
+    produtoRepository.persist(new ProdutoEntity(106L, "Fundo XPTO", TipoProdutoEnum.FUNDO, 0.18, NivelRiscoEnum.ALTO));
+    produtoRepository
+        .persist(new ProdutoEntity(107L, "Fundo Multimercado Ativo", TipoProdutoEnum.FUNDO, 0.15, NivelRiscoEnum.ALTO));
+    produtoRepository.persist(
+        new ProdutoEntity(108L, "Fundo Balanceado Conservador", TipoProdutoEnum.FUNDO, 0.09, NivelRiscoEnum.BAIXO));
+    produtoRepository.persist(
+        new ProdutoEntity(109L, "Fundo Inovação Tech", TipoProdutoEnum.FUNDO, 0.25, NivelRiscoEnum.MUITO_ALTO));
+    produtoRepository
+        .persist(new ProdutoEntity(110L, "Fundo Renda Variável", TipoProdutoEnum.FUNDO, 0.20, NivelRiscoEnum.ALTO));
 
     // Renda Fixa (5 produtos)
-    produtoRepository.persist(new ProdutoEntity(111L, "Tesouro Direto IPCA", "Renda Fixa", 0.08, NivelRiscoEnum.MUITO_BAIXO));
-    produtoRepository.persist(new ProdutoEntity(112L, "Tesouro Selic Curto", "Renda Fixa", 0.06, NivelRiscoEnum.MUITO_BAIXO));
-    produtoRepository.persist(new ProdutoEntity(113L, "Tesouro Prefixado 2030", "Renda Fixa", 0.11, NivelRiscoEnum.MUITO_BAIXO));
-    produtoRepository.persist(new ProdutoEntity(119L, "LCI Caixa Imobiliários", "Renda Fixa", 0.10, NivelRiscoEnum.BAIXO));
-    produtoRepository.persist(new ProdutoEntity(120L, "LCA Caixa Agrícola", "Renda Fixa", 0.08, NivelRiscoEnum.MUITO_BAIXO));
+    produtoRepository.persist(
+        new ProdutoEntity(111L, "Tesouro Direto IPCA", TipoProdutoEnum.RENDA_FIXA, 0.08, NivelRiscoEnum.MUITO_BAIXO));
+    produtoRepository.persist(
+        new ProdutoEntity(112L, "Tesouro Selic Curto", TipoProdutoEnum.RENDA_FIXA, 0.06, NivelRiscoEnum.MUITO_BAIXO));
+    produtoRepository.persist(new ProdutoEntity(113L, "Tesouro Prefixado 2030", TipoProdutoEnum.RENDA_FIXA, 0.11,
+        NivelRiscoEnum.MUITO_BAIXO));
+    produtoRepository.persist(
+        new ProdutoEntity(119L, "LCI Caixa Imobiliários", TipoProdutoEnum.RENDA_FIXA, 0.10, NivelRiscoEnum.BAIXO));
+    produtoRepository.persist(
+        new ProdutoEntity(120L, "LCA Caixa Agrícola", TipoProdutoEnum.RENDA_FIXA, 0.08, NivelRiscoEnum.MUITO_BAIXO));
   }
 
   private void inicializarClientes() {

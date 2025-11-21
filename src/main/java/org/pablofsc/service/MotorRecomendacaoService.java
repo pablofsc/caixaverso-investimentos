@@ -32,7 +32,7 @@ public class MotorRecomendacaoService {
 
     // Depois filtrar pelo tipo desejado
     List<ProdutoEntity> produtos = produtosPorPerfil.stream()
-        .filter(p -> p.getTipo().equals(tipoProdutoDesejado))
+        .filter(p -> p.getTipo().getDescricao().equals(tipoProdutoDesejado))
         .toList();
 
     if (produtos.isEmpty()) {
