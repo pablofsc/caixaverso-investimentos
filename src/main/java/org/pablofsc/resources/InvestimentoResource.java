@@ -18,7 +18,7 @@ public class InvestimentoResource {
 
   @GET
   @Path("/{clienteId}")
-  public Response obterInvestimentos(@PathParam("clienteId") Long clienteId) {
-    return Response.ok(service.obterInvestimentos(clienteId)).build();
+  public Response obterInvestimentosPorCliente(@PathParam("clienteId") Long clienteId) {
+    return Response.ok(service.obterInvestimentosPorCliente(clienteId)).build();
   }
 }

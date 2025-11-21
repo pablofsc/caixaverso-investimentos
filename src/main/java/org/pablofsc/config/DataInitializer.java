@@ -6,9 +6,13 @@ import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.pablofsc.domain.entity.ClienteEntity;
+import org.pablofsc.domain.entity.InvestimentoEntity;
 import org.pablofsc.domain.entity.ProdutoEntity;
 import org.pablofsc.repository.ClienteRepository;
+import org.pablofsc.repository.InvestimentoRepository;
 import org.pablofsc.repository.ProdutoRepository;
+
+import java.time.LocalDate;
 
 @ApplicationScoped
 public class DataInitializer {
@@ -19,10 +23,14 @@ public class DataInitializer {
   @Inject
   ClienteRepository clienteRepository;
 
+  @Inject
+  InvestimentoRepository investimentoRepository;
+
   @Transactional
   void onStart(@Observes StartupEvent ev) {
     inicializarProdutos();
     inicializarClientes();
+    inicializarInvestimentos();
   }
 
   private void inicializarProdutos() {
@@ -111,5 +119,47 @@ public class DataInitializer {
         .volumeTotalInvestido(1000000.0)
         .frequenciaMovimentacoes("ALTA")
         .build());
+  }
+
+  private void inicializarInvestimentos() {
+    if (investimentoRepository.count() > 0) {
+      return;
+    }
+
+    ClienteEntity maria = clienteRepository.findById(2L);
+    ClienteEntity carlos = clienteRepository.findById(3L);
+    ClienteEntity pablo = clienteRepository.findById(123L);
+
+    // Maria (MODERADO) - 5 investimentos
+    criarInvestimentos(maria, 5);
+
+    // Carlos (AGRESSIVO) - 10 investimentos
+    criarInvestimentos(carlos, 10);
+
+    // Pablo (AGRESSIVO) - 20 investimentos
+    criarInvestimentos(pablo, 20);
+  }
+
+  private void criarInvestimentos(ClienteEntity cliente, int quantidade) {
+    ProdutoEntity[] produtos = new ProdutoEntity[] {
+        produtoRepository.findById(101L), // CDB
+        produtoRepository.findById(106L), // Fundo
+        produtoRepository.findById(111L) // Tesouro
+    };
+
+    LocalDate dataBase = LocalDate.parse("2025-01-01");
+
+    for (int i = 0; i < quantidade; i++) {
+      ProdutoEntity produtoAleatorio = produtos[i % produtos.length];
+      Double valor = 5000.0 + (i * 1000.0); // Valores crescentes
+      LocalDate data = dataBase.plusDays(i * 5);
+
+      investimentoRepository.persist(InvestimentoEntity.builder()
+          .cliente(cliente)
+          .produto(produtoAleatorio)
+          .valor(valor)
+          .data(data)
+          .build());
+    }
   }
 }
