@@ -1,5 +1,6 @@
 package org.pablofsc.domain.entity;
 
+import org.pablofsc.domain.enums.FrequenciaMovimentacoesEnum;
 import org.pablofsc.domain.enums.NivelRiscoEnum;
 import org.pablofsc.domain.enums.PreferenciaRentLiqEnum;
 
@@ -70,8 +71,8 @@ public class ClienteEntity extends PanacheEntityBase {
 
   /**
    * Frequência de movimentações financeiras do cliente.
-   * Valores possíveis: "BAIXA", "MEDIA", "ALTA".
    */
   @Column(name = "frequencia_movimentacoes")
-  private String frequenciaMovimentacoes;
+  @Enumerated(EnumType.STRING)
+  private FrequenciaMovimentacoesEnum frequenciaMovimentacoes;
 }

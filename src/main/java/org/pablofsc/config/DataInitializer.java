@@ -10,6 +10,7 @@ import org.pablofsc.domain.entity.ClienteEntity;
 import org.pablofsc.domain.entity.InvestimentoEntity;
 import org.pablofsc.domain.entity.ProdutoEntity;
 import org.pablofsc.domain.entity.UsuarioEntity;
+import org.pablofsc.domain.enums.FrequenciaMovimentacoesEnum;
 import org.pablofsc.domain.enums.NivelRiscoEnum;
 import org.pablofsc.domain.enums.PreferenciaRentLiqEnum;
 import org.pablofsc.domain.enums.TipoProdutoEnum;
@@ -111,7 +112,7 @@ public class DataInitializer {
         .preferenciaRentLiq(PreferenciaRentLiqEnum.LIQUIDEZ)
         .riscoMaximoAceitavel(NivelRiscoEnum.MUITO_BAIXO)
         .volumeTotalInvestido(2000.0)
-        .frequenciaMovimentacoes("BAIXA")
+        .frequenciaMovimentacoes(FrequenciaMovimentacoesEnum.BAIXA)
         .build());
 
     // Cliente 2: Maria Santos - Moderado, equilíbrio
@@ -122,7 +123,7 @@ public class DataInitializer {
         .preferenciaRentLiq(PreferenciaRentLiqEnum.EQUILIBRIO)
         .riscoMaximoAceitavel(NivelRiscoEnum.BAIXO)
         .volumeTotalInvestido(25000.0)
-        .frequenciaMovimentacoes("MEDIA")
+        .frequenciaMovimentacoes(FrequenciaMovimentacoesEnum.MEDIA)
         .build());
 
     // Cliente 3: Carlos Oliveira - Agressivo, rentabilidade
@@ -133,7 +134,7 @@ public class DataInitializer {
         .preferenciaRentLiq(PreferenciaRentLiqEnum.RENTABILIDADE)
         .riscoMaximoAceitavel(NivelRiscoEnum.ALTO)
         .volumeTotalInvestido(100000.0)
-        .frequenciaMovimentacoes("ALTA")
+        .frequenciaMovimentacoes(FrequenciaMovimentacoesEnum.ALTA)
         .build());
 
     // Cliente 4: Ana Costa - Conservadora, liquidez
@@ -144,7 +145,7 @@ public class DataInitializer {
         .preferenciaRentLiq(PreferenciaRentLiqEnum.LIQUIDEZ)
         .riscoMaximoAceitavel(NivelRiscoEnum.MUITO_BAIXO)
         .volumeTotalInvestido(10000.0)
-        .frequenciaMovimentacoes("BAIXA")
+        .frequenciaMovimentacoes(FrequenciaMovimentacoesEnum.BAIXA)
         .build());
 
     // Cliente 5: Pablo Felipe - Investidor ultra agressivo, altíssimo risco
@@ -155,7 +156,7 @@ public class DataInitializer {
         .preferenciaRentLiq(PreferenciaRentLiqEnum.RENTABILIDADE)
         .riscoMaximoAceitavel(NivelRiscoEnum.MUITO_ALTO)
         .volumeTotalInvestido(1000000.0)
-        .frequenciaMovimentacoes("ALTA")
+        .frequenciaMovimentacoes(FrequenciaMovimentacoesEnum.ALTA)
         .build());
   }
 

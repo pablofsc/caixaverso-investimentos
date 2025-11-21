@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.pablofsc.domain.entity.ClienteEntity;
 import org.pablofsc.domain.entity.ProdutoEntity;
+import org.pablofsc.domain.enums.FrequenciaMovimentacoesEnum;
 import org.pablofsc.domain.enums.NivelRiscoEnum;
 import org.pablofsc.domain.exception.ProdutoNaoEncontradoException;
 import org.pablofsc.domain.model.PerfilCliente;
@@ -106,10 +107,10 @@ public class MotorRecomendacaoService {
 
     // Bônus de frequência (até 5 pontos)
     double bonusFrequencia = switch (cliente.getFrequenciaMovimentacoes()) {
-      case "ALTA" -> 5.0;
-      case "MEDIA" -> 3.0;
-      case "BAIXA" -> 1.0;
-      default -> 0.0;
+      case ALTA -> 5.0;
+      case MEDIA -> 3.0;
+      case BAIXA -> 1.0;
+      case null -> 0.0;
     };
 
     return Math.min(scorePreferencia + scoreRentabilidade, 70) + Math.min(scoreRisco, 20) + bonusVolume

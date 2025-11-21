@@ -3,6 +3,7 @@ package org.pablofsc.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.pablofsc.domain.entity.ClienteEntity;
+import org.pablofsc.domain.enums.FrequenciaMovimentacoesEnum;
 import org.pablofsc.domain.enums.NivelRiscoEnum;
 import org.pablofsc.domain.enums.PreferenciaRentLiqEnum;
 import org.pablofsc.domain.model.PerfilCliente;
@@ -36,10 +37,10 @@ public class PerfilRiscoService {
 
     // Frequência: BAIXA=10, MEDIA=20, ALTA=30 (até 30)
     pontos += switch (cliente.getFrequenciaMovimentacoes()) {
-      case "ALTA" -> 30;
-      case "MEDIA" -> 20;
-      case "BAIXA" -> 10;
-      default -> 0;
+      case ALTA -> 30;
+      case MEDIA -> 20;
+      case BAIXA -> 10;
+      case null -> 0;
     };
 
     // Preferência: LIQUIDEZ=10, EQUILIBRIO=15, RENTABILIDADE=25 (até 25)
@@ -81,9 +82,9 @@ public class PerfilRiscoService {
     int score = 0;
 
     // Frequência: BAIXA=0, MEDIA=1, ALTA=2
-    if ("ALTA".equals(cliente.getFrequenciaMovimentacoes())) {
+    if (cliente.getFrequenciaMovimentacoes() == FrequenciaMovimentacoesEnum.ALTA) {
       score += 2;
-    } else if ("MEDIA".equals(cliente.getFrequenciaMovimentacoes())) {
+    } else if (cliente.getFrequenciaMovimentacoes() == FrequenciaMovimentacoesEnum.MEDIA) {
       score += 1;
     }
 
