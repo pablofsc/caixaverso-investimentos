@@ -1,5 +1,6 @@
 package org.pablofsc.resources;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -17,6 +18,7 @@ import org.pablofsc.service.SimulacaoInvestimentoService;
 @Path("/simular-investimento")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RolesAllowed("user")
 public class SimulacaoInvestimentoResource {
 
   @Inject

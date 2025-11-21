@@ -1,5 +1,6 @@
 package org.pablofsc.resources;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -11,6 +12,7 @@ import org.pablofsc.service.TelemetriaService;
 
 @Path("/telemetria")
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed("user")
 public class TelemetriaResource {
 
   @Inject

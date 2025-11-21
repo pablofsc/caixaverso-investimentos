@@ -1,5 +1,6 @@
 package org.pablofsc.resources;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -12,6 +13,7 @@ import org.pablofsc.service.ProdutoRecomendadoService;
 
 @Path("/produtos-recomendados")
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed("user")
 public class ProdutoRecomendadoResource {
 
   @Inject
