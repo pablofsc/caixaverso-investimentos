@@ -10,6 +10,7 @@ import org.pablofsc.domain.entity.ClienteEntity;
 import org.pablofsc.domain.entity.InvestimentoEntity;
 import org.pablofsc.domain.entity.ProdutoEntity;
 import org.pablofsc.domain.entity.UsuarioEntity;
+import org.pablofsc.domain.enums.NivelRiscoEnum;
 import org.pablofsc.repository.ClienteRepository;
 import org.pablofsc.repository.InvestimentoRepository;
 import org.pablofsc.repository.ProdutoRepository;
@@ -60,25 +61,25 @@ public class DataInitializer {
     }
 
     // CDB (5 produtos)
-    produtoRepository.persist(new ProdutoEntity(101L, "CDB Caixa 2026", "CDB", 0.12, "Baixo"));
-    produtoRepository.persist(new ProdutoEntity(102L, "CDB Caixa Top", "CDB", 0.11, "Baixo"));
-    produtoRepository.persist(new ProdutoEntity(103L, "CDB Caixa Maneiro", "CDB", 0.13, "Baixo"));
-    produtoRepository.persist(new ProdutoEntity(104L, "CDB Caixa Seguríssimo", "CDB", 0.10, "Muito Baixo"));
-    produtoRepository.persist(new ProdutoEntity(105L, "CDB Caixa Dinheirão", "CDB", 0.17, "Alto"));
+    produtoRepository.persist(new ProdutoEntity(101L, "CDB Caixa 2026", "CDB", 0.12, NivelRiscoEnum.BAIXO));
+    produtoRepository.persist(new ProdutoEntity(102L, "CDB Caixa Top", "CDB", 0.11, NivelRiscoEnum.BAIXO));
+    produtoRepository.persist(new ProdutoEntity(103L, "CDB Caixa Maneiro", "CDB", 0.13, NivelRiscoEnum.BAIXO));
+    produtoRepository.persist(new ProdutoEntity(104L, "CDB Caixa Seguríssimo", "CDB", 0.10, NivelRiscoEnum.MUITO_BAIXO));
+    produtoRepository.persist(new ProdutoEntity(105L, "CDB Caixa Dinheirão", "CDB", 0.17, NivelRiscoEnum.ALTO));
 
     // Fundo (5 produtos)
-    produtoRepository.persist(new ProdutoEntity(106L, "Fundo XPTO", "Fundo", 0.18, "Alto"));
-    produtoRepository.persist(new ProdutoEntity(107L, "Fundo Multimercado Ativo", "Fundo", 0.15, "Alto"));
-    produtoRepository.persist(new ProdutoEntity(108L, "Fundo Balanceado Conservador", "Fundo", 0.09, "Baixo"));
-    produtoRepository.persist(new ProdutoEntity(109L, "Fundo Inovação Tech", "Fundo", 0.25, "Muito Alto"));
-    produtoRepository.persist(new ProdutoEntity(110L, "Fundo Renda Variável", "Fundo", 0.20, "Alto"));
+    produtoRepository.persist(new ProdutoEntity(106L, "Fundo XPTO", "Fundo", 0.18, NivelRiscoEnum.ALTO));
+    produtoRepository.persist(new ProdutoEntity(107L, "Fundo Multimercado Ativo", "Fundo", 0.15, NivelRiscoEnum.ALTO));
+    produtoRepository.persist(new ProdutoEntity(108L, "Fundo Balanceado Conservador", "Fundo", 0.09, NivelRiscoEnum.BAIXO));
+    produtoRepository.persist(new ProdutoEntity(109L, "Fundo Inovação Tech", "Fundo", 0.25, NivelRiscoEnum.MUITO_ALTO));
+    produtoRepository.persist(new ProdutoEntity(110L, "Fundo Renda Variável", "Fundo", 0.20, NivelRiscoEnum.ALTO));
 
     // Renda Fixa (5 produtos)
-    produtoRepository.persist(new ProdutoEntity(111L, "Tesouro Direto IPCA", "Renda Fixa", 0.08, "Muito Baixo"));
-    produtoRepository.persist(new ProdutoEntity(112L, "Tesouro Selic Curto", "Renda Fixa", 0.06, "Muito Baixo"));
-    produtoRepository.persist(new ProdutoEntity(113L, "Tesouro Prefixado 2030", "Renda Fixa", 0.11, "Muito Baixo"));
-    produtoRepository.persist(new ProdutoEntity(119L, "LCI Caixa Imobiliários", "Renda Fixa", 0.10, "Baixo"));
-    produtoRepository.persist(new ProdutoEntity(120L, "LCA Caixa Agrícola", "Renda Fixa", 0.08, "Muito Baixo"));
+    produtoRepository.persist(new ProdutoEntity(111L, "Tesouro Direto IPCA", "Renda Fixa", 0.08, NivelRiscoEnum.MUITO_BAIXO));
+    produtoRepository.persist(new ProdutoEntity(112L, "Tesouro Selic Curto", "Renda Fixa", 0.06, NivelRiscoEnum.MUITO_BAIXO));
+    produtoRepository.persist(new ProdutoEntity(113L, "Tesouro Prefixado 2030", "Renda Fixa", 0.11, NivelRiscoEnum.MUITO_BAIXO));
+    produtoRepository.persist(new ProdutoEntity(119L, "LCI Caixa Imobiliários", "Renda Fixa", 0.10, NivelRiscoEnum.BAIXO));
+    produtoRepository.persist(new ProdutoEntity(120L, "LCA Caixa Agrícola", "Renda Fixa", 0.08, NivelRiscoEnum.MUITO_BAIXO));
   }
 
   private void inicializarClientes() {
@@ -92,7 +93,7 @@ public class DataInitializer {
         .nome("João Silva")
         .prazoMedioPreferido(3)
         .preferenciaRentLiq("LIQUIDEZ")
-        .riscoMaximoAceitavel("Muito Baixo")
+        .riscoMaximoAceitavel(NivelRiscoEnum.MUITO_BAIXO)
         .volumeTotalInvestido(2000.0)
         .frequenciaMovimentacoes("BAIXA")
         .build());
@@ -103,7 +104,7 @@ public class DataInitializer {
         .nome("Maria Santos")
         .prazoMedioPreferido(12)
         .preferenciaRentLiq("EQUILIBRIO")
-        .riscoMaximoAceitavel("Baixo")
+        .riscoMaximoAceitavel(NivelRiscoEnum.BAIXO)
         .volumeTotalInvestido(25000.0)
         .frequenciaMovimentacoes("MEDIA")
         .build());
@@ -114,7 +115,7 @@ public class DataInitializer {
         .nome("Carlos Oliveira")
         .prazoMedioPreferido(24)
         .preferenciaRentLiq("RENTABILIDADE")
-        .riscoMaximoAceitavel("Alto")
+        .riscoMaximoAceitavel(NivelRiscoEnum.ALTO)
         .volumeTotalInvestido(100000.0)
         .frequenciaMovimentacoes("ALTA")
         .build());
@@ -125,7 +126,7 @@ public class DataInitializer {
         .nome("Ana Costa")
         .prazoMedioPreferido(3)
         .preferenciaRentLiq("LIQUIDEZ")
-        .riscoMaximoAceitavel("Muito Baixo")
+        .riscoMaximoAceitavel(NivelRiscoEnum.MUITO_BAIXO)
         .volumeTotalInvestido(10000.0)
         .frequenciaMovimentacoes("BAIXA")
         .build());
@@ -136,7 +137,7 @@ public class DataInitializer {
         .nome("Pablo Felipe")
         .prazoMedioPreferido(48)
         .preferenciaRentLiq("RENTABILIDADE")
-        .riscoMaximoAceitavel("Muito Alto")
+        .riscoMaximoAceitavel(NivelRiscoEnum.MUITO_ALTO)
         .volumeTotalInvestido(1000000.0)
         .frequenciaMovimentacoes("ALTA")
         .build());

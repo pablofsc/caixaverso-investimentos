@@ -1,8 +1,12 @@
 package org.pablofsc.domain.entity;
 
+import org.pablofsc.domain.enums.NivelRiscoEnum;
+
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -47,7 +51,8 @@ public class ProdutoEntity extends PanacheEntityBase {
   private Double rentabilidade;
 
   /**
-   * Nível de risco do produto (ex: "Baixo", "Alto").
+   * Nível de risco do produto.
    */
-  private String risco;
+  @Enumerated(EnumType.STRING)
+  private NivelRiscoEnum risco;
 }

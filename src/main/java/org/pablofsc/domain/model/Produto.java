@@ -1,5 +1,7 @@
 package org.pablofsc.domain.model;
 
+import org.pablofsc.domain.enums.NivelRiscoEnum;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,5 +15,5 @@ public class Produto {
   private String nome;
   private String tipo;
   private Double rentabilidade;
-  private String risco;
+  private NivelRiscoEnum risco;
 }

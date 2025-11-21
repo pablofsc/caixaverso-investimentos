@@ -1,8 +1,12 @@
 package org.pablofsc.domain.entity;
 
+import org.pablofsc.domain.enums.NivelRiscoEnum;
+
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -52,10 +56,10 @@ public class ClienteEntity extends PanacheEntityBase {
 
   /**
    * Nível máximo de risco aceitável pelo cliente.
-   * Valores possíveis: "Muito Baixo", "Baixo", "Alto", "Muito Alto".
    */
   @Column(name = "risco_maximo_aceitavel")
-  private String riscoMaximoAceitavel;
+  @Enumerated(EnumType.STRING)
+  private NivelRiscoEnum riscoMaximoAceitavel;
 
   /**
    * Volume total investido pelo cliente, em reais (R$).

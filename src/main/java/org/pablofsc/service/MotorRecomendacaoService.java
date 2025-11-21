@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.pablofsc.domain.entity.ClienteEntity;
 import org.pablofsc.domain.entity.ProdutoEntity;
+import org.pablofsc.domain.enums.NivelRiscoEnum;
 import org.pablofsc.domain.exception.ProdutoNaoEncontradoException;
 import org.pablofsc.domain.model.PerfilCliente;
 import org.pablofsc.repository.ProdutoRepository;
@@ -19,11 +20,6 @@ public class MotorRecomendacaoService {
 
   @Inject
   PerfilRiscoService perfilRiscoService;
-
-  private static final int NIVEL_MUITO_BAIXO = 0;
-  private static final int NIVEL_BAIXO = 1;
-  private static final int NIVEL_ALTO = 2;
-  private static final int NIVEL_MUITO_ALTO = 3;
 
   /**
    * Retorna produtos compatíveis com cliente, ordenados por compatibilidade
@@ -45,7 +41,7 @@ public class MotorRecomendacaoService {
 
     // Filtrar por risco aceitável do cliente
     List<ProdutoEntity> filtrados = produtos.stream()
-        .filter(p -> getNivelRisco(p.getRisco()) <= getNivelRisco(cliente.getRiscoMaximoAceitavel()))
+        .filter(p -> p.getRisco().getNivel() <= cliente.getRiscoMaximoAceitavel().getNivel())
         .toList();
 
     if (filtrados.isEmpty()) {
@@ -82,8 +78,8 @@ public class MotorRecomendacaoService {
 
   private double calcularCompatibilidadeCliente(ProdutoEntity produto, ClienteEntity cliente) {
     double rentabilidade = (produto.getRentabilidade() != null) ? produto.getRentabilidade() * 100 : 0;
-    int nivelRisco = getNivelRisco(produto.getRisco());
-    int nivelMaximo = getNivelRisco(cliente.getRiscoMaximoAceitavel());
+    int nivelRisco = produto.getRisco().getNivel();
+    int nivelMaximo = cliente.getRiscoMaximoAceitavel().getNivel();
 
     // Preferência (até 30 pontos)
     double scorePreferencia = switch (cliente.getPreferenciaRentLiq()) {
@@ -122,7 +118,7 @@ public class MotorRecomendacaoService {
 
   private double calcularCompatibilidadePerfil(ProdutoEntity produto, PerfilCliente perfil) {
     double rentabilidade = (produto.getRentabilidade() != null) ? produto.getRentabilidade() * 100 : 0;
-    int nivelRisco = getNivelRisco(produto.getRisco());
+    int nivelRisco = produto.getRisco().getNivel();
 
     return switch (perfil) {
       case CONSERVADOR -> {
@@ -143,22 +139,13 @@ public class MotorRecomendacaoService {
   }
 
   private boolean filtrarPorPerfil(ProdutoEntity produto, PerfilCliente perfil) {
-    int nivelRisco = getNivelRisco(produto.getRisco());
+    int nivelRisco = produto.getRisco().getNivel();
 
     return switch (perfil) {
-      case CONSERVADOR -> nivelRisco <= NIVEL_BAIXO;
-      case MODERADO -> nivelRisco <= NIVEL_ALTO;
+      case CONSERVADOR -> nivelRisco <= NivelRiscoEnum.BAIXO.getNivel();
+      case MODERADO -> nivelRisco <= NivelRiscoEnum.ALTO.getNivel();
       case AGRESSIVO -> true;
     };
   }
 
-  private Integer getNivelRisco(String risco) {
-    return switch (risco) {
-      case "Muito Baixo" -> NIVEL_MUITO_BAIXO;
-      case "Baixo" -> NIVEL_BAIXO;
-      case "Alto" -> NIVEL_ALTO;
-      case "Muito Alto" -> NIVEL_MUITO_ALTO;
-      default -> NIVEL_BAIXO;
-    };
-  }
 }
