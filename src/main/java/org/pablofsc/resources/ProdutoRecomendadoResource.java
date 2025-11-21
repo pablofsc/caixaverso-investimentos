@@ -14,7 +14,7 @@ import org.pablofsc.service.ProdutoRecomendadoService;
 
 @Path("/produtos-recomendados")
 @Produces(MediaType.APPLICATION_JSON)
-@RolesAllowed(RoleUsuarioEnum.USER_ROLE)
+@RolesAllowed({ RoleUsuarioEnum.USER_ROLE, RoleUsuarioEnum.ADMIN_ROLE })
 public class ProdutoRecomendadoResource {
 
   @Inject

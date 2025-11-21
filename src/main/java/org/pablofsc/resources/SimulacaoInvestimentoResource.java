@@ -19,7 +19,7 @@ import org.pablofsc.service.SimulacaoInvestimentoService;
 @Path("/simular-investimento")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RolesAllowed(RoleUsuarioEnum.USER_ROLE)
+@RolesAllowed({ RoleUsuarioEnum.USER_ROLE, RoleUsuarioEnum.ADMIN_ROLE })
 public class SimulacaoInvestimentoResource {
 
   @Inject
