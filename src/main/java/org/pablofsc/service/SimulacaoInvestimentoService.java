@@ -30,6 +30,14 @@ public class SimulacaoInvestimentoService {
         calculoService);
   }
 
+  // Constructor for testing
+  public SimulacaoInvestimentoService(
+          ValidacaoSimulacaoService validacaoService,
+          SimulacaoOrchestrator orchestrator) {
+      this.validacaoService = validacaoService;
+      this.orchestrator = orchestrator;
+  }
+
   @Transactional
   public SimulacaoInvestimentoResponse simularInvestimento(SimulacaoInvestimentoRequest request) {
     // Validar parâmetros de entrada (valor, prazo, tipoProduto)

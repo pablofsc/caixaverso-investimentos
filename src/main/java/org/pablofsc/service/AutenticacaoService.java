@@ -27,6 +27,12 @@ public class AutenticacaoService {
         Duration.ofHours(24));
   }
 
+  // Construtor para testes
+  public AutenticacaoService(UsuarioRepository usuarioRepository, TokenBuilder tokenBuilder) {
+    this.usuarioRepository = usuarioRepository;
+    this.tokenBuilder = tokenBuilder;
+  }
+
   public LoginResponse autenticar(LoginRequest request) {
     UsuarioEntity usuario = usuarioRepository.findByEmail(request.getEmail())
         .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
