@@ -7,6 +7,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.pablofsc.domain.model.PerfilCliente;
 import org.pablofsc.service.ProdutoRecomendadoService;
 
 @Path("/produtos-recomendados")
@@ -19,6 +20,16 @@ public class ProdutoRecomendadoResource {
   @GET
   @Path("/{perfil}")
   public Response obterProdutosRecomendados(@PathParam("perfil") String perfil) {
-    return Response.ok(service.obterProdutosRecomendados(perfil)).build();
+    try {
+      PerfilCliente perfilEnum = PerfilCliente.valueOf(perfil.toUpperCase());
+      return Response.ok(service.obterProdutosRecomendados(perfilEnum)).build();
+    } catch (IllegalArgumentException e) {
+      return Response.status(Response.Status.BAD_REQUEST)
+          .entity(new ErrorResponse("Perfil inválido. Use: CONSERVADOR, MODERADO ou AGRESSIVO"))
+          .build();
+    }
+  }
+
+  record ErrorResponse(String mensagem) {
   }
 }
