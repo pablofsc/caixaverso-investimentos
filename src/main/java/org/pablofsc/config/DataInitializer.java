@@ -11,6 +11,7 @@ import org.pablofsc.domain.entity.InvestimentoEntity;
 import org.pablofsc.domain.entity.ProdutoEntity;
 import org.pablofsc.domain.entity.UsuarioEntity;
 import org.pablofsc.domain.enums.NivelRiscoEnum;
+import org.pablofsc.domain.enums.PreferenciaRentLiqEnum;
 import org.pablofsc.domain.enums.TipoProdutoEnum;
 import org.pablofsc.repository.ClienteRepository;
 import org.pablofsc.repository.InvestimentoRepository;
@@ -107,7 +108,7 @@ public class DataInitializer {
         .id(1L)
         .nome("João Silva")
         .prazoMedioPreferido(3)
-        .preferenciaRentLiq("LIQUIDEZ")
+        .preferenciaRentLiq(PreferenciaRentLiqEnum.LIQUIDEZ)
         .riscoMaximoAceitavel(NivelRiscoEnum.MUITO_BAIXO)
         .volumeTotalInvestido(2000.0)
         .frequenciaMovimentacoes("BAIXA")
@@ -118,7 +119,7 @@ public class DataInitializer {
         .id(2L)
         .nome("Maria Santos")
         .prazoMedioPreferido(12)
-        .preferenciaRentLiq("EQUILIBRIO")
+        .preferenciaRentLiq(PreferenciaRentLiqEnum.EQUILIBRIO)
         .riscoMaximoAceitavel(NivelRiscoEnum.BAIXO)
         .volumeTotalInvestido(25000.0)
         .frequenciaMovimentacoes("MEDIA")
@@ -129,7 +130,7 @@ public class DataInitializer {
         .id(3L)
         .nome("Carlos Oliveira")
         .prazoMedioPreferido(24)
-        .preferenciaRentLiq("RENTABILIDADE")
+        .preferenciaRentLiq(PreferenciaRentLiqEnum.RENTABILIDADE)
         .riscoMaximoAceitavel(NivelRiscoEnum.ALTO)
         .volumeTotalInvestido(100000.0)
         .frequenciaMovimentacoes("ALTA")
@@ -140,7 +141,7 @@ public class DataInitializer {
         .id(4L)
         .nome("Ana Costa")
         .prazoMedioPreferido(3)
-        .preferenciaRentLiq("LIQUIDEZ")
+        .preferenciaRentLiq(PreferenciaRentLiqEnum.LIQUIDEZ)
         .riscoMaximoAceitavel(NivelRiscoEnum.MUITO_BAIXO)
         .volumeTotalInvestido(10000.0)
         .frequenciaMovimentacoes("BAIXA")
@@ -151,7 +152,7 @@ public class DataInitializer {
         .id(123L)
         .nome("Pablo Felipe")
         .prazoMedioPreferido(48)
-        .preferenciaRentLiq("RENTABILIDADE")
+        .preferenciaRentLiq(PreferenciaRentLiqEnum.RENTABILIDADE)
         .riscoMaximoAceitavel(NivelRiscoEnum.MUITO_ALTO)
         .volumeTotalInvestido(1000000.0)
         .frequenciaMovimentacoes("ALTA")

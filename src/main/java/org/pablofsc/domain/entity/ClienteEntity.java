@@ -1,6 +1,7 @@
 package org.pablofsc.domain.entity;
 
 import org.pablofsc.domain.enums.NivelRiscoEnum;
+import org.pablofsc.domain.enums.PreferenciaRentLiqEnum;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
@@ -49,10 +50,10 @@ public class ClienteEntity extends PanacheEntityBase {
 
   /**
    * Preferência do cliente entre liquidez, equilíbrio ou rentabilidade.
-   * Valores possíveis: "LIQUIDEZ", "EQUILIBRIO", "RENTABILIDADE".
    */
   @Column(name = "preferencia_liquidez_rentabilidade")
-  private String preferenciaRentLiq;
+  @Enumerated(EnumType.STRING)
+  private PreferenciaRentLiqEnum preferenciaRentLiq;
 
   /**
    * Nível máximo de risco aceitável pelo cliente.

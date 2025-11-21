@@ -83,10 +83,10 @@ public class MotorRecomendacaoService {
 
     // Preferência (até 30 pontos)
     double scorePreferencia = switch (cliente.getPreferenciaRentLiq()) {
-      case "RENTABILIDADE" -> Math.min(rentabilidade * 0.3, 30);
-      case "EQUILIBRIO" -> Math.min(Math.min(rentabilidade * 0.15, 15) + (3 - nivelRisco) * 3.33, 20);
-      case "LIQUIDEZ" -> (3 - nivelRisco) * 5.0;
-      default -> 15.0;
+      case RENTABILIDADE -> Math.min(rentabilidade * 0.3, 30);
+      case EQUILIBRIO -> Math.min(Math.min(rentabilidade * 0.15, 15) + (3 - nivelRisco) * 3.33, 20);
+      case LIQUIDEZ -> (3 - nivelRisco) * 5.0;
+      case null -> 15.0;
     };
 
     // Rentabilidade (até 40 pontos)

@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.pablofsc.domain.entity.ClienteEntity;
 import org.pablofsc.domain.enums.NivelRiscoEnum;
+import org.pablofsc.domain.enums.PreferenciaRentLiqEnum;
 import org.pablofsc.domain.model.PerfilCliente;
 import org.pablofsc.domain.response.PerfilRiscoResponse;
 import org.pablofsc.repository.ClienteRepository;
@@ -43,10 +44,10 @@ public class PerfilRiscoService {
 
     // Preferência: LIQUIDEZ=10, EQUILIBRIO=15, RENTABILIDADE=25 (até 25)
     pontos += switch (cliente.getPreferenciaRentLiq()) {
-      case "RENTABILIDADE" -> 25;
-      case "EQUILIBRIO" -> 15;
-      case "LIQUIDEZ" -> 10;
-      default -> 0;
+      case RENTABILIDADE -> 25;
+      case EQUILIBRIO -> 15;
+      case LIQUIDEZ -> 10;
+      case null -> 0;
     };
 
     // Volume: 0-10k=5, 10k-100k=10, 100k-500k=15, 500k+=20 (até 20)
@@ -87,9 +88,9 @@ public class PerfilRiscoService {
     }
 
     // Preferência: LIQUIDEZ=0, EQUILIBRIO=1, RENTABILIDADE=2
-    if ("RENTABILIDADE".equals(cliente.getPreferenciaRentLiq())) {
+    if (cliente.getPreferenciaRentLiq() == PreferenciaRentLiqEnum.RENTABILIDADE) {
       score += 2;
-    } else if ("EQUILIBRIO".equals(cliente.getPreferenciaRentLiq())) {
+    } else if (cliente.getPreferenciaRentLiq() == PreferenciaRentLiqEnum.EQUILIBRIO) {
       score += 1;
     }
 
