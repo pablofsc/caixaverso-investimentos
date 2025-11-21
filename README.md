@@ -1,58 +1,185 @@
-# caixaverso-investimentos
+# API Caixaverso Investimentos
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Sistema de simulação e gestão de investimentos desenvolvido com Quarkus, oferecendo análise de risco, recomendação de produtos financeiros e telemetria operacional.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## Sobre o Projeto
 
-## Running the application in dev mode
+A aplicação é uma API completa que permite:
 
-You can run your application in dev mode that enables live coding using:
+- Simulação de investimentos com análise de rentabilidade
+- Recomendação personalizada de produtos financeiros
+- Análise de perfil de risco de clientes
+- Histórico de simulações realizadas
+- Telemetria e monitoramento do sistema
 
-```shell script
-./mvnw quarkus:dev
+## Tecnologias Utilizadas
+
+- **Java 21**
+- **Quarkus 3.29.3**
+- **Hibernate ORM com Panache**
+- **SQLite**
+- **SmallRye JWT**
+- **OpenAPI/Swagger**
+- **JUnit**
+- **JaCoCo**
+- **Lombok**
+- **Docker**
+
+## Autenticação e Segurança
+
+Optei pelo uso de JWT (JSON Web Token) para autenticação e autorização de usuários. O fluxo funciona assim:
+
+### Como Funciona o JWT
+
+1. **Login**: O usuário envia email e senha para o endpoint `/auth/login`
+2. **Validação**: O sistema verifica as credenciais no banco de dados (a senha é salva como hash)
+3. **Geração do Token**: Se válido, um token JWT é gerado contendo:
+   - Email do usuário
+   - Nome completo
+   - ID do usuário
+   - Role (perfil de acesso)
+   - Data de expiração (24 horas)
+4. **Uso do Token**: O cliente envia o token no header `Authorization: Bearer {token}` em cada requisição
+5. **Validação**: O sistema valida a assinatura e expiração do token antes de processar a requisição
+
+O token é assinado digitalmente usando chaves RSA (pública e privada)
+
+### Roles Existentes
+
+O sistema possui dois perfis de acesso:
+
+- **USER**: Usuário comum com acesso a funcionalidades básicas
+  - Pode realizar simulações de investimento
+  - Pode consultar recomendações de produtos
+  - Pode visualizar seu perfil de risco
+  - Pode acessar histórico de suas próprias simulações
+
+- **ADMIN**: Administrador com acesso total ao sistema
+  - Todas as permissões de USER
+  - Pode visualizar investimentos de todos os clientes
+  - Pode acessar dados de telemetria do sistema
+  - Pode gerenciar produtos financeiros
+
+Este é o perfil admin é padrão:
+
+- Email: `admin@caixaverso.com.br`
+- Senha: `admin123`
+
+## Documentação Swagger
+
+A API possui documentação interativa completa através do Swagger UI, que permite:
+
+- Visualizar todos os endpoints disponíveis
+- Conhecer os parâmetros e formatos de requisição
+- Testar as operações diretamente pelo navegador
+- Ver exemplos de respostas de sucesso e erro
+
+Para acessar o Swagger:
+
+1. Inicie a aplicação em modo de desenvolvimento
+2. Acesse: http://localhost:8080/q/swagger-ui
+3. Utilize o botão "Authorize" para inserir o token JWT obtido no login
+4. Explore e teste os endpoints disponíveis
+
+A documentação inclui descrições detalhadas, códigos de resposta HTTP, exemplos de payload e informações sobre autenticação necessária para cada endpoint.
+
+## Executando o Projeto
+
+### Modo Desenvolvimento
+
+Para iniciar a aplicação em modo de desenvolvimento com hot reload:
+
+```bash
+mvn quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+A aplicação estará disponível em http://localhost:8080
 
-## Packaging and running the application
+Recursos adicionais no modo dev:
+- Dev UI: http://localhost:8080/q/dev
+- Swagger UI: http://localhost:8080/q/swagger-ui
+- Health Check: http://localhost:8080/q/health
 
-The application can be packaged using:
+## Testes Unitários
 
-```shell script
-./mvnw package
+O projeto possui uma cobertura completa de testes unitários, incluindo:
+
+- Testes de serviços (lógica de negócio)
+- Testes de recursos (endpoints da API)
+- Testes de entidades e modelos
+- Testes de filtros e validações
+- Testes de helpers e utilitários
+
+### Executando os Testes
+
+Para executar todos os testes unitários:
+
+```bash
+mvn test
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+### Relatório de Cobertura
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+Para gerar o relatório de cobertura de código com JaCoCo:
 
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+```bash
+mvn verify
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+O relatório será gerado em `target/site/jacoco/index.html` e pode ser visualizado em qualquer navegador.
 
-## Creating a native executable
+O projeto utiliza:
+- **JUnit 5**: Framework moderno de testes
+- **Mockito**: Criação de mocks e stubs
+- **Quarkus Test Security**: Testes de segurança e autorização (criptografia da senha JWT)
 
-You can create a native executable using:
+## Docker
 
-```shell script
-./mvnw package -Dnative
+O projeto inclui suporte completo para containerização com Docker.
+
+### Construindo a Imagem
+
+```bash
+mvn package
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+```bash
+docker build -f src/main/docker/Dockerfile.jvm -t caixaverso-investimentos:latest .
 ```
 
-You can then execute your native executable with: `./target/caixaverso-investimentos-1.0.0-SNAPSHOT-runner`
+```bash
+docker run -i --rm -p 8080:8080 caixaverso-investimentos:latest
+```
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+## Endpoints Principais
 
-## Related Guides
+### Autenticação
+- `POST /auth/login` - Realiza login e retorna token JWT
+- `POST /auth/registrar` - Registra novo usuário
 
-- JDBC Driver - H2 ([guide](https://quarkus.io/guides/datasource)): Connect to the H2 database via JDBC
+### Simulações
+- `POST /simulacoes` - Cria nova simulação de investimento
+- `GET /simulacoes/historico` - Lista histórico de simulações
+
+### Produtos
+- `GET /produtos/recomendados` - Obtém produtos recomendados baseado no perfil
+
+### Perfil de Risco
+- `POST /perfil-risco` - Calcula perfil de risco do cliente
+
+### Investimentos (ADMIN)
+- `GET /investimentos/{clienteId}` - Lista investimentos de um cliente
+
+### Telemetria (ADMIN)
+- `GET /telemetria` - Obtém métricas de uso dos endpoints
+
+## Banco de Dados
+
+O sistema utiliza SQLite para armazenar os dados. O banco é criado automaticamente quando a aplicação é iniciada pela primeira vez.
+
+Na inicialização, o sistema popula o banco com:
+- Usuário administrador padrão
+- Produtos financeiros disponíveis
+- Clientes de exemplo para testes
+- Investimentos de demonstração para os clientes de teste
+
