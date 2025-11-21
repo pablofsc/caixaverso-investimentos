@@ -13,6 +13,7 @@ import org.pablofsc.domain.entity.UsuarioEntity;
 import org.pablofsc.domain.enums.FrequenciaMovimentacoesEnum;
 import org.pablofsc.domain.enums.NivelRiscoEnum;
 import org.pablofsc.domain.enums.PreferenciaRentLiqEnum;
+import org.pablofsc.domain.enums.RoleUsuarioEnum;
 import org.pablofsc.domain.enums.TipoProdutoEnum;
 import org.pablofsc.repository.ClienteRepository;
 import org.pablofsc.repository.InvestimentoRepository;
@@ -54,7 +55,7 @@ public class DataInitializer {
         .email("admin@teste.com")
         .senha(BcryptUtil.bcryptHash("123"))
         .nome("Administrador")
-        .role("admin")
+        .role(RoleUsuarioEnum.ADMIN)
         .build());
   }
 

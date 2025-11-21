@@ -1,6 +1,7 @@
 package org.pablofsc.resources;
 
 import jakarta.annotation.security.RolesAllowed;
+import org.pablofsc.domain.enums.RoleUsuarioEnum;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -12,7 +13,7 @@ import org.pablofsc.service.SimulacaoPorProdutoDiaService;
 
 @Path("/simulacoes")
 @Produces(MediaType.APPLICATION_JSON)
-@RolesAllowed("admin")
+@RolesAllowed(RoleUsuarioEnum.ADMIN_ROLE)
 public class SimulacaoHistoricoResource {
 
   @Inject

@@ -6,6 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.pablofsc.domain.entity.UsuarioEntity;
+import org.pablofsc.domain.enums.RoleUsuarioEnum;
 import org.pablofsc.domain.request.LoginRequest;
 import org.pablofsc.domain.response.LoginResponse;
 import org.pablofsc.repository.UsuarioRepository;
@@ -42,7 +43,7 @@ public class AutenticacaoService {
         .email(request.getEmail())
         .senha(criptografarSenha(request.getSenha()))
         .nome(request.getEmail().split("@")[0])
-        .role("user")
+        .role(RoleUsuarioEnum.USER)
         .build();
 
     usuarioRepository.persist(usuario);
@@ -56,11 +57,11 @@ public class AutenticacaoService {
     return Jwt.issuer("caixaverso-investimentos")
         .upn(usuario.getEmail())
         .subject(usuario.getEmail())
-        .groups(usuario.getRole())
+        .groups(usuario.getRole().name())
         .claim("email", usuario.getEmail())
         .claim("nome", usuario.getNome())
         .claim("userId", usuario.getId())
-        .claim("role", usuario.getRole())
+        .claim("role", usuario.getRole().name())
         .audience("caixaverso-investimentos")
         .issuedAt(now)
         .expiresAt(expiresAt)

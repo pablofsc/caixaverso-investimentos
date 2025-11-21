@@ -27,6 +27,9 @@ public class JwtSecurityContext {
   }
 
   public boolean isUserInRole(String role) {
+    if ("USER".equals(role)) {
+      return jwt.getGroups().contains("USER") || jwt.getGroups().contains("ADMIN");
+    }
     return jwt.getGroups().contains(role);
   }
 }

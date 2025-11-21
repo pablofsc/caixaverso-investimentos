@@ -3,10 +3,13 @@ package org.pablofsc.domain.entity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import org.pablofsc.domain.enums.RoleUsuarioEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -52,9 +55,10 @@ public class UsuarioEntity extends PanacheEntityBase {
   private String nome;
 
   /**
-   * Papel do usuário no sistema (ex: "user", "admin").
+   * Papel do usuário no sistema.
    */
   @Column(nullable = false)
+  @Enumerated(EnumType.STRING)
   @Builder.Default
-  private String role = "user";
+  private RoleUsuarioEnum role = RoleUsuarioEnum.USER;
 }
