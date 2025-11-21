@@ -12,7 +12,7 @@ import org.pablofsc.service.InvestimentoService;
 
 @Path("/investimentos")
 @Produces(MediaType.APPLICATION_JSON)
-@RolesAllowed("user")
+@RolesAllowed("admin")
 public class InvestimentoResource {
 
   @Inject

@@ -5,12 +5,15 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import io.quarkus.elytron.security.common.BcryptUtil;
 import org.pablofsc.domain.entity.ClienteEntity;
 import org.pablofsc.domain.entity.InvestimentoEntity;
 import org.pablofsc.domain.entity.ProdutoEntity;
+import org.pablofsc.domain.entity.UsuarioEntity;
 import org.pablofsc.repository.ClienteRepository;
 import org.pablofsc.repository.InvestimentoRepository;
 import org.pablofsc.repository.ProdutoRepository;
+import org.pablofsc.repository.UsuarioRepository;
 
 import java.time.LocalDate;
 
@@ -26,11 +29,29 @@ public class DataInitializer {
   @Inject
   InvestimentoRepository investimentoRepository;
 
+  @Inject
+  UsuarioRepository usuarioRepository;
+
   @Transactional
   void onStart(@Observes StartupEvent ev) {
+    inicializarUsuarioAdmin();
     inicializarProdutos();
     inicializarClientes();
     inicializarInvestimentos();
+  }
+
+  private void inicializarUsuarioAdmin() {
+    if (usuarioRepository.count() > 0) {
+      return;
+    }
+
+    // Criar usuário admin
+    usuarioRepository.persist(UsuarioEntity.builder()
+        .email("admin@teste.com")
+        .senha(BcryptUtil.bcryptHash("123"))
+        .nome("Administrador")
+        .role("admin")
+        .build());
   }
 
   private void inicializarProdutos() {

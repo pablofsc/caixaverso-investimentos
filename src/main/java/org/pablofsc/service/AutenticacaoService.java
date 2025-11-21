@@ -42,6 +42,7 @@ public class AutenticacaoService {
         .email(request.getEmail())
         .senha(criptografarSenha(request.getSenha()))
         .nome(request.getEmail().split("@")[0])
+        .role("user")
         .build();
 
     usuarioRepository.persist(usuario);
@@ -55,10 +56,11 @@ public class AutenticacaoService {
     return Jwt.issuer("caixaverso-investimentos")
         .upn(usuario.getEmail())
         .subject(usuario.getEmail())
-        .groups("user")
+        .groups(usuario.getRole())
         .claim("email", usuario.getEmail())
         .claim("nome", usuario.getNome())
         .claim("userId", usuario.id)
+        .claim("role", usuario.getRole())
         .audience("caixaverso-investimentos")
         .issuedAt(now)
         .expiresAt(expiresAt)

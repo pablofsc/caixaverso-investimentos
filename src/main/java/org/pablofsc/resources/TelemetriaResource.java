@@ -12,7 +12,7 @@ import org.pablofsc.service.TelemetriaService;
 
 @Path("/telemetria")
 @Produces(MediaType.APPLICATION_JSON)
-@RolesAllowed("user")
+@RolesAllowed("admin")
 public class TelemetriaResource {
 
   @Inject

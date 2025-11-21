@@ -12,7 +12,7 @@ import org.pablofsc.service.PerfilRiscoService;
 
 @Path("/perfil-risco")
 @Produces(MediaType.APPLICATION_JSON)
-@RolesAllowed("user")
+@RolesAllowed("admin")
 public class PerfilRiscoResource {
 
   @Inject

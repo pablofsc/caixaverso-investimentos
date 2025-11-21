@@ -12,7 +12,7 @@ import org.pablofsc.service.SimulacaoPorProdutoDiaService;
 
 @Path("/simulacoes")
 @Produces(MediaType.APPLICATION_JSON)
-@RolesAllowed("user")
+@RolesAllowed("admin")
 public class SimulacaoHistoricoResource {
 
   @Inject

@@ -29,4 +29,8 @@ public class UsuarioEntity extends PanacheEntityBase {
 
   @Column(nullable = false)
   private String nome;
+
+  @Column(nullable = false)
+  @Builder.Default
+  private String role = "user";
 }
