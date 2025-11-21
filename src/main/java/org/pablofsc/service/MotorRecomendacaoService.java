@@ -6,7 +6,6 @@ import jakarta.transaction.Transactional;
 import org.pablofsc.domain.entity.ClienteEntity;
 import org.pablofsc.domain.entity.ProdutoEntity;
 import org.pablofsc.domain.exception.ProdutoNaoEncontradoException;
-import org.pablofsc.domain.model.PerfilCliente;
 import org.pablofsc.repository.ProdutoRepository;
 
 import java.util.Comparator;
@@ -46,9 +45,6 @@ public class MotorRecomendacaoService {
   }
 
   private Double calcularScore(ProdutoEntity produto, ClienteEntity cliente) {
-    // Classificar perfil do cliente durante o processamento
-    classificarPerfil(cliente);
-
     double rentabilidade = (produto.getRentabilidade() != null) ? produto.getRentabilidade() * 100 : 0;
     int nivelRisco = getNivelRisco(produto.getRisco());
     int nivelMaximo = getNivelRisco(cliente.getRiscoMaximoAceitavel());
@@ -86,58 +82,6 @@ public class MotorRecomendacaoService {
 
     return Math.min(scorePreferencia + scoreRentabilidade, 70) + Math.min(scoreRisco, 20) + bonusVolume
         + bonusFrequencia;
-  }
-
-  /**
-   * Classifica o cliente em uma das três categorias baseado em seu perfil
-   * Conservador: baixa movimentação, foco em liquidez
-   * Moderado: equilíbrio entre liquidez e rentabilidade
-   * Agressivo: busca por alta rentabilidade, maior risco
-   */
-  public PerfilCliente classificarPerfil(ClienteEntity cliente) {
-    int score = 0;
-
-    // Frequência: BAIXA=0, MEDIA=1, ALTA=2
-    if ("ALTA".equals(cliente.getFrequenciaMovimentacoes())) {
-      score += 2;
-    } else if ("MEDIA".equals(cliente.getFrequenciaMovimentacoes())) {
-      score += 1;
-    }
-
-    // Preferência: LIQUIDEZ=0, EQUILIBRIO=1, RENTABILIDADE=2
-    if ("RENTABILIDADE".equals(cliente.getPreferenciaRentLiq())) {
-      score += 2;
-    } else if ("EQUILIBRIO".equals(cliente.getPreferenciaRentLiq())) {
-      score += 1;
-    }
-
-    // Volume: 0-10k=0, 10k-100k=1, 100k-500k=1.5, 500k+=2
-    if (cliente.getVolumeTotalInvestido() != null) {
-      if (cliente.getVolumeTotalInvestido() >= 500000) {
-        score += 2;
-      } else if (cliente.getVolumeTotalInvestido() >= 100000) {
-        score += 1.5;
-      } else if (cliente.getVolumeTotalInvestido() >= 10000) {
-        score += 1;
-      }
-    }
-
-    // Risco: Muito Baixo/Baixo=0, Alto=1, Muito Alto=2
-    int nivelRisco = getNivelRisco(cliente.getRiscoMaximoAceitavel());
-    if (nivelRisco >= NIVEL_MUITO_ALTO) {
-      score += 2;
-    } else if (nivelRisco >= NIVEL_ALTO) {
-      score += 1;
-    }
-
-    // Classificação final baseada no score total
-    if (score >= 5) {
-      return PerfilCliente.AGRESSIVO;
-    } else if (score >= 2) {
-      return PerfilCliente.MODERADO;
-    } else {
-      return PerfilCliente.CONSERVADOR;
-    }
   }
 
   private Integer getNivelRisco(String risco) {
