@@ -41,7 +41,7 @@ public class TelemetriaFilter implements ContainerResponseFilter {
     telemetriaService.registrarTelemetria(nomeEndpoint, tempoRespostaMs);
   }
 
-  private String extrairNomeEndpoint(String path) {
+  String extrairNomeEndpoint(String path) {
     // Remove a primeira barra
     if (path.startsWith("/")) {
       path = path.substring(1);
