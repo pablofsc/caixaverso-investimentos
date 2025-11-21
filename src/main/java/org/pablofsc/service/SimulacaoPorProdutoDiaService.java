@@ -19,8 +19,12 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class SimulacaoPorProdutoDiaService {
 
+  private final SimulacaoRepository repository;
+
   @Inject
-  SimulacaoRepository repository;
+  public SimulacaoPorProdutoDiaService(SimulacaoRepository repository) {
+    this.repository = repository;
+  }
 
   @Transactional
   public List<SimulacaoPorProdutoDia> listarSimulacoesPorProdutoDia() {

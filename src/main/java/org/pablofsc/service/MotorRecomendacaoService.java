@@ -15,11 +15,14 @@ import java.util.List;
 @ApplicationScoped
 public class MotorRecomendacaoService {
 
-  @Inject
-  ProdutoRepository produtoRepository;
+  private final ProdutoRepository produtoRepository;
+  private final PerfilRiscoService perfilRiscoService;
 
   @Inject
-  PerfilRiscoService perfilRiscoService;
+  public MotorRecomendacaoService(ProdutoRepository produtoRepository, PerfilRiscoService perfilRiscoService) {
+    this.produtoRepository = produtoRepository;
+    this.perfilRiscoService = perfilRiscoService;
+  }
 
   /**
    * Retorna produtos compatíveis com cliente, ordenados por compatibilidade
@@ -76,7 +79,7 @@ public class MotorRecomendacaoService {
     return compatíveis.get(0); // Primeiro é o mais compatível
   }
 
-  private double calcularCompatibilidadeCliente(ProdutoEntity produto, ClienteEntity cliente) {
+  double calcularCompatibilidadeCliente(ProdutoEntity produto, ClienteEntity cliente) {
     double rentabilidade = (produto.getRentabilidade() != null) ? produto.getRentabilidade() * 100 : 0;
     int nivelRisco = produto.getRisco().getNivel();
     int nivelMaximo = cliente.getRiscoMaximoAceitavel().getNivel();
@@ -116,7 +119,7 @@ public class MotorRecomendacaoService {
         + bonusFrequencia;
   }
 
-  private double calcularCompatibilidadePerfil(ProdutoEntity produto, PerfilCliente perfil) {
+  double calcularCompatibilidadePerfil(ProdutoEntity produto, PerfilCliente perfil) {
     double rentabilidade = (produto.getRentabilidade() != null) ? produto.getRentabilidade() * 100 : 0;
     int nivelRisco = produto.getRisco().getNivel();
 

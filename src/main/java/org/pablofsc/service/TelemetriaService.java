@@ -18,8 +18,12 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class TelemetriaService {
 
+  private final TelemetriaRepository telemetriaRepository;
+
   @Inject
-  TelemetriaRepository telemetriaRepository;
+  public TelemetriaService(TelemetriaRepository telemetriaRepository) {
+    this.telemetriaRepository = telemetriaRepository;
+  }
 
   @Transactional
   public void registrarTelemetria(String endpoint, Long tempoRespostaMs) {

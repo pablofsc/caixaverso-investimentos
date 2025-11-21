@@ -4,7 +4,7 @@ import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.pablofsc.domain.entity.SimulacaoEntity;
+import org.pablofsc.domain.mapper.EntityToModelMapper;
 import org.pablofsc.domain.model.SimulacaoHistorico;
 import org.pablofsc.repository.SimulacaoRepository;
 
@@ -14,8 +14,12 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class SimulacaoHistoricoService {
 
+  private final SimulacaoRepository repository;
+
   @Inject
-  SimulacaoRepository repository;
+  public SimulacaoHistoricoService(SimulacaoRepository repository) {
+    this.repository = repository;
+  }
 
   @Transactional
   public List<SimulacaoHistorico> listarSimulacoes() {
@@ -23,22 +27,7 @@ public class SimulacaoHistoricoService {
         .listAll(Sort.by("id").ascending())
         .stream()
         .filter(entity -> entity != null)
-        .map(this::toResponse)
+        .map(EntityToModelMapper::toSimulacaoHistoricoModel)
         .collect(Collectors.toList());
-  }
-
-  private SimulacaoHistorico toResponse(SimulacaoEntity entity) {
-    if (entity == null) {
-      return null;
-    }
-
-    return new SimulacaoHistorico(
-        entity.getId(),
-        entity.getCliente() != null ? entity.getCliente().getId() : null,
-        entity.getProduto() != null ? entity.getProduto().getNome() : "Produto removido",
-        entity.getValorInvestido(),
-        entity.getValorFinal(),
-        entity.getPrazoMeses(),
-        entity.getDataSimulacao());
   }
 }

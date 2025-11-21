@@ -11,8 +11,12 @@ import java.util.List;
 @ApplicationScoped
 public class ProdutoRecomendadoService {
 
+  private final MotorRecomendacaoService motorRecomendacao;
+
   @Inject
-  MotorRecomendacaoService motorRecomendacao;
+  public ProdutoRecomendadoService(MotorRecomendacaoService motorRecomendacao) {
+    this.motorRecomendacao = motorRecomendacao;
+  }
 
   /**
    * Retorna produtos recomendados para um perfil, usando o motor de recomendação

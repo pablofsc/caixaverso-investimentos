@@ -2,7 +2,7 @@ package org.pablofsc.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import org.pablofsc.domain.entity.InvestimentoEntity;
+import org.pablofsc.domain.mapper.EntityToModelMapper;
 import org.pablofsc.domain.model.Investimento;
 import org.pablofsc.repository.InvestimentoRepository;
 
@@ -11,8 +11,12 @@ import java.util.List;
 @ApplicationScoped
 public class InvestimentoService {
 
+  private final InvestimentoRepository investimentoRepository;
+
   @Inject
-  InvestimentoRepository investimentoRepository;
+  public InvestimentoService(InvestimentoRepository investimentoRepository) {
+    this.investimentoRepository = investimentoRepository;
+  }
 
   public List<Investimento> obterInvestimentosPorCliente(Long clienteId) {
     return investimentoRepository.find("cliente.id", clienteId)
@@ -20,16 +24,7 @@ public class InvestimentoService {
         .list()
         .stream()
         .sorted((i1, i2) -> i1.getData().compareTo(i2.getData()))
-        .map(this::toResponse)
+        .map(EntityToModelMapper::toInvestimentoModel)
         .toList();
-  }
-
-  private Investimento toResponse(InvestimentoEntity investimento) {
-    return new Investimento(
-        investimento.getId(),
-        investimento.getProduto().getTipo(),
-        investimento.getValor(),
-        investimento.getProduto().getRentabilidade(),
-        investimento.getData());
   }
 }

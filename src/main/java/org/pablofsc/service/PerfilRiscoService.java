@@ -13,8 +13,12 @@ import org.pablofsc.repository.ClienteRepository;
 @ApplicationScoped
 public class PerfilRiscoService {
 
+  private final ClienteRepository clienteRepository;
+
   @Inject
-  ClienteRepository clienteRepository;
+  public PerfilRiscoService(ClienteRepository clienteRepository) {
+    this.clienteRepository = clienteRepository;
+  }
 
   public PerfilRiscoResponse obterPerfilRisco(Long clienteId) {
     ClienteEntity cliente = clienteRepository.findById(clienteId);
@@ -32,7 +36,7 @@ public class PerfilRiscoService {
         perfil.getTexto());
   }
 
-  private Integer calcularPontuacao(ClienteEntity cliente) {
+  public Integer calcularPontuacao(ClienteEntity cliente) {
     int pontos = 0;
 
     // Frequência: BAIXA=10, MEDIA=20, ALTA=30 (até 30)

@@ -17,8 +17,12 @@ import java.time.Instant;
 @ApplicationScoped
 public class AutenticacaoService {
 
+  private final UsuarioRepository usuarioRepository;
+
   @Inject
-  UsuarioRepository usuarioRepository;
+  public AutenticacaoService(UsuarioRepository usuarioRepository) {
+    this.usuarioRepository = usuarioRepository;
+  }
 
   public LoginResponse autenticar(LoginRequest request) {
     UsuarioEntity usuario = usuarioRepository.findByEmail(request.getEmail())
