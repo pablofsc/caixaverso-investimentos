@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.pablofsc.domain.request.LoginRequest;
+import org.pablofsc.domain.response.ErrorResponse;
 import org.pablofsc.domain.response.LoginResponse;
 import org.pablofsc.service.AutenticacaoService;
 
@@ -57,8 +58,8 @@ class AutenticacaoResourceTest {
 
         // Assert
         assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
-        assertTrue(response.getEntity() instanceof AutenticacaoResource.ErrorResponse);
-        assertEquals("Invalid credentials", ((AutenticacaoResource.ErrorResponse) response.getEntity()).mensagem());
+        assertTrue(response.getEntity() instanceof ErrorResponse);
+        assertEquals("Credenciais inválidas", ((ErrorResponse) response.getEntity()).getMensagem());
     }
 
     @Test
@@ -86,7 +87,7 @@ class AutenticacaoResourceTest {
 
         // Assert
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-        assertTrue(response.getEntity() instanceof AutenticacaoResource.ErrorResponse);
-        assertEquals("User already exists", ((AutenticacaoResource.ErrorResponse) response.getEntity()).mensagem());
+        assertTrue(response.getEntity() instanceof ErrorResponse);
+        assertEquals("Erro ao registrar usuário", ((ErrorResponse) response.getEntity()).getMensagem());
     }
 }

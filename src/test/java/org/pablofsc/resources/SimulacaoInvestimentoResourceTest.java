@@ -12,6 +12,7 @@ import org.pablofsc.domain.exception.ClienteNaoEncontradoException;
 import org.pablofsc.domain.exception.ParametroInvalidoException;
 import org.pablofsc.domain.exception.ProdutoNaoEncontradoException;
 import org.pablofsc.domain.request.SimulacaoInvestimentoRequest;
+import org.pablofsc.domain.response.ErrorResponse;
 import org.pablofsc.domain.response.SimulacaoInvestimentoResponse;
 import org.pablofsc.service.SimulacaoInvestimentoService;
 
@@ -61,8 +62,8 @@ class SimulacaoInvestimentoResourceTest {
 
         // Assert
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
-        assertTrue(response.getEntity() instanceof SimulacaoInvestimentoResource.ErrorResponse);
-        assertEquals("Cliente não encontrado", ((SimulacaoInvestimentoResource.ErrorResponse) response.getEntity()).mensagem());
+        assertTrue(response.getEntity() instanceof ErrorResponse);
+        assertEquals("Cliente não encontrado", ((ErrorResponse) response.getEntity()).getMensagem());
     }
 
     @Test
@@ -76,8 +77,8 @@ class SimulacaoInvestimentoResourceTest {
 
         // Assert
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-        assertTrue(response.getEntity() instanceof SimulacaoInvestimentoResource.ErrorResponse);
-        assertEquals("Produto não encontrado", ((SimulacaoInvestimentoResource.ErrorResponse) response.getEntity()).mensagem());
+        assertTrue(response.getEntity() instanceof ErrorResponse);
+        assertEquals("Produto não encontrado", ((ErrorResponse) response.getEntity()).getMensagem());
     }
 
     @Test
@@ -91,7 +92,7 @@ class SimulacaoInvestimentoResourceTest {
 
         // Assert
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-        assertTrue(response.getEntity() instanceof SimulacaoInvestimentoResource.ErrorResponse);
-        assertEquals("Parâmetro inválido", ((SimulacaoInvestimentoResource.ErrorResponse) response.getEntity()).mensagem());
+        assertTrue(response.getEntity() instanceof ErrorResponse);
+        assertEquals("Parâmetro inválido", ((ErrorResponse) response.getEntity()).getMensagem());
     }
 }

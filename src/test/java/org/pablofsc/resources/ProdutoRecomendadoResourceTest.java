@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.pablofsc.domain.model.ProdutoRecomendado;
+import org.pablofsc.domain.response.ErrorResponse;
 import org.pablofsc.service.ProdutoRecomendadoService;
 
 import java.util.List;
@@ -58,7 +59,8 @@ class ProdutoRecomendadoResourceTest {
 
         // Assert
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-        assertTrue(response.getEntity() instanceof ProdutoRecomendadoResource.ErrorResponse);
-        assertEquals("Perfil inválido. Use: CONSERVADOR, MODERADO ou AGRESSIVO", ((ProdutoRecomendadoResource.ErrorResponse) response.getEntity()).mensagem());
+        assertTrue(response.getEntity() instanceof ErrorResponse);
+        assertEquals("Perfil inválido. Use: CONSERVADOR, MODERADO ou AGRESSIVO",
+                ((ErrorResponse) response.getEntity()).getMensagem());
     }
 }
