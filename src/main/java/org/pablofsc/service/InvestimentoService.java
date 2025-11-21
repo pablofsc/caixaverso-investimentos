@@ -8,6 +8,10 @@ import org.pablofsc.repository.InvestimentoRepository;
 
 import java.util.List;
 
+/**
+ * Serviço de gerenciamento de investimentos do cliente.
+ * Fornece acesso ao histórico de investimentos ordenado por data.
+ */
 @ApplicationScoped
 public class InvestimentoService {
 
@@ -18,6 +22,12 @@ public class InvestimentoService {
     this.investimentoRepository = investimentoRepository;
   }
 
+  /**
+   * Obtém todos os investimentos de um cliente ordenados por data.
+   *
+   * @param clienteId ID do cliente
+   * @return Lista de investimentos ordenada cronologicamente
+   */
   public List<Investimento> obterInvestimentosPorCliente(Long clienteId) {
     return investimentoRepository.find("cliente.id", clienteId)
         .page(0, Integer.MAX_VALUE)

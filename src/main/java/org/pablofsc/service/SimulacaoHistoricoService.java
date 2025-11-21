@@ -11,6 +11,10 @@ import org.pablofsc.repository.SimulacaoRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Serviço de acesso ao histórico de simulações de investimento.
+ * Fornece listagem completa de simulações realizadas.
+ */
 @ApplicationScoped
 public class SimulacaoHistoricoService {
 
@@ -21,6 +25,11 @@ public class SimulacaoHistoricoService {
     this.repository = repository;
   }
 
+  /**
+   * Lista todas as simulações realizadas ordenadas por ID ascendente.
+   *
+   * @return Lista de históricos de simulação
+   */
   @Transactional
   public List<SimulacaoHistorico> listarSimulacoes() {
     return repository

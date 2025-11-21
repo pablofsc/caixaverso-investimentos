@@ -5,15 +5,20 @@ import org.pablofsc.domain.entity.ProdutoEntity;
 import org.pablofsc.domain.model.PerfilCliente;
 
 /**
- * Calculadora de scores de compatibilidade entre produtos e clientes/perfis.
- * Isola lógica de scoring para testes independentes de cada algoritmo.
+ * Calculadora de scores de compatibilidade entre produtos e clientes/perfis (0-100).
+ * Isola lógica de scoring para facilitar testes independentes e manutenção do algoritmo.
+ * Considera: rentabilidade, risco, preferência, volume investido e frequência de movimentações.
  */
 public class CompatibilityScoreCalculator {
 
   /**
-   * Calcula score de compatibilidade entre produto e cliente (0-100)
-   * Leva em conta: preferência, rentabilidade, risco, volume investido,
-   * frequência
+   * Calcula score de compatibilidade entre produto e cliente (0-100).
+   * Componentes: preferência (até 30), rentabilidade (até 40), risco (até 20),
+   * bônus volume (até 5) e bônus frequência (até 5).
+   *
+   * @param produto Produto para avaliar
+   * @param cliente Cliente para avaliar compatibilidade
+   * @return Score de 0 a 100 onde maior é mais compatível
    */
   public double calcularCompatibilidadeCliente(ProdutoEntity produto, ClienteEntity cliente) {
     double rentabilidade = (produto.getRentabilidade() != null) ? produto.getRentabilidade() * 100 : 0;
@@ -40,7 +45,12 @@ public class CompatibilityScoreCalculator {
   }
 
   /**
-   * Calcula score de compatibilidade entre produto e perfil de cliente
+   * Calcula score de compatibilidade entre produto e perfil de cliente.
+   * Usa algoritmos diferentes para cada perfil (conservador, moderado, agressivo).
+   *
+   * @param produto Produto para avaliar
+   * @param perfil Perfil do cliente (CONSERVADOR, MODERADO ou AGRESSIVO)
+   * @return Score de compatibilidade do produto com o perfil
    */
   public double calcularCompatibilidadePerfil(ProdutoEntity produto, PerfilCliente perfil) {
     double rentabilidade = (produto.getRentabilidade() != null) ? produto.getRentabilidade() * 100 : 0;
@@ -54,7 +64,12 @@ public class CompatibilityScoreCalculator {
   }
 
   /**
-   * Score baseado em preferência de rentabilidade, equilíbrio ou liquidez
+   * Score baseado em preferência de rentabilidade, equilíbrio ou liquidez.
+   *
+   * @param cliente Cliente para avaliar preferência
+   * @param rentabilidade Rentabilidade do produto em percentual
+   * @param nivelRisco Nível de risco do produto (1-3)
+   * @return Score de preferência (até 30 pontos)
    */
   private double calcularScorePreferencia(ClienteEntity cliente, double rentabilidade, int nivelRisco) {
     return switch (cliente.getPreferenciaRentLiq()) {
@@ -66,14 +81,21 @@ public class CompatibilityScoreCalculator {
   }
 
   /**
-   * Score baseado em rentabilidade do produto
+   * Score baseado em rentabilidade do produto.
+   *
+   * @param rentabilidade Rentabilidade em percentual
+   * @return Score de rentabilidade (até 40 pontos)
    */
   private double calcularScoreRentabilidade(double rentabilidade) {
     return Math.min(rentabilidade * 0.4, 40);
   }
 
   /**
-   * Score baseado em compatibilidade de risco
+   * Score baseado em compatibilidade de risco entre cliente e produto.
+   *
+   * @param nivelRisco Nível de risco do produto
+   * @param nivelMaximo Nível máximo de risco aceitável do cliente
+   * @return Score de risco (até 20 pontos)
    */
   private double calcularScoreRisco(int nivelRisco, int nivelMaximo) {
     return nivelRisco <= nivelMaximo
@@ -82,7 +104,10 @@ public class CompatibilityScoreCalculator {
   }
 
   /**
-   * Bônus por volume total investido
+   * Bônus por volume total investido pelo cliente.
+   *
+   * @param volumeTotalInvestido Volume total investido
+   * @return Bônus em pontos (até 5)
    */
   private double calcularBonusVolume(Double volumeTotalInvestido) {
     if (volumeTotalInvestido == null) {
@@ -98,7 +123,10 @@ public class CompatibilityScoreCalculator {
   }
 
   /**
-   * Bônus por frequência de movimentações
+   * Bônus por frequência de movimentações do cliente.
+   *
+   * @param frequencia Frequência (ALTA, MEDIA, BAIXA)
+   * @return Bônus em pontos (até 5)
    */
   private double calcularBonusFrequencia(Object frequencia) {
     return switch (frequencia) {
@@ -111,7 +139,11 @@ public class CompatibilityScoreCalculator {
   }
 
   /**
-   * Score para perfil conservador - valoriza baixo risco e liquidez
+   * Score para perfil conservador - valoriza baixo risco e liquidez.
+   *
+   * @param rentabilidade Rentabilidade do produto
+   * @param nivelRisco Nível de risco do produto
+   * @return Score para perfil conservador
    */
   private double calcularScoreConservador(double rentabilidade, int nivelRisco) {
     double riscoScore = Math.max(0, 20 - (nivelRisco * 5));
@@ -119,7 +151,11 @@ public class CompatibilityScoreCalculator {
   }
 
   /**
-   * Score para perfil moderado - valoriza equilíbrio
+   * Score para perfil moderado - valoriza equilíbrio entre risco e rentabilidade.
+   *
+   * @param rentabilidade Rentabilidade do produto
+   * @param nivelRisco Nível de risco do produto
+   * @return Score para perfil moderado
    */
   private double calcularScoreModerado(double rentabilidade, int nivelRisco) {
     double riscoScore = 15 - Math.abs(nivelRisco - 1) * 5;
@@ -127,7 +163,11 @@ public class CompatibilityScoreCalculator {
   }
 
   /**
-   * Score para perfil agressivo - valoriza alta rentabilidade
+   * Score para perfil agressivo - valoriza alta rentabilidade e maior risco.
+   *
+   * @param rentabilidade Rentabilidade do produto
+   * @param nivelRisco Nível de risco do produto
+   * @return Score para perfil agressivo
    */
   private double calcularScoreAgressivo(double rentabilidade, int nivelRisco) {
     return rentabilidade * 0.8 + (nivelRisco * 2);

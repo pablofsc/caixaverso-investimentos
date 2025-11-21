@@ -4,6 +4,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.pablofsc.domain.exception.ParametroInvalidoException;
 import org.pablofsc.domain.request.SimulacaoInvestimentoRequest;
 
+/**
+ * Serviço de validação de parâmetros de simulação de investimento.
+ * Valida valor (R$ 100 a R$ 1.000.000), prazo (1 a 360 meses) e tipo de produto.
+ */
 @ApplicationScoped
 public class ValidacaoSimulacaoService {
 
@@ -12,6 +16,12 @@ public class ValidacaoSimulacaoService {
   private static final Integer PRAZO_MINIMO = 1;
   private static final Integer PRAZO_MAXIMO = 360; // 30 anos
 
+  /**
+   * Valida todos os parâmetros da requisição de simulação.
+   *
+   * @param request Requisição a validar
+   * @throws ParametroInvalidoException Se algum parâmetro for inválido
+   */
   public void validar(SimulacaoInvestimentoRequest request) {
     validarValor(request.getValor());
     validarPrazo(request.getPrazoMeses());

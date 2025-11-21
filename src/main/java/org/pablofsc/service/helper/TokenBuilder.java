@@ -8,9 +8,9 @@ import java.time.Duration;
 import java.time.Instant;
 
 /**
- * Construtor de JWT tokens - isola lógica de geração de tokens.
- * Facilita testes de expiração, claims, assinatura sem precisar de toda a
- * AutenticacaoService.
+ * Construtor de JWT tokens com suporte a criptografia de senhas.
+ * Isola lógica de geração e validação de tokens para facilitar testes.
+ * Utiliza Bcrypt para hash de senhas e smallrye-jwt para geração de tokens.
  */
 public class TokenBuilder {
 
@@ -25,7 +25,11 @@ public class TokenBuilder {
   }
 
   /**
-   * Constrói token JWT para usuário
+   * Constrói token JWT com claims do usuário.
+   * Token inclui: email, nome, userId, role, e expira em 24 horas.
+   *
+   * @param usuario Usuário para qual gerar token
+   * @return Token JWT assinado
    */
   public String buildToken(UsuarioEntity usuario) {
     Instant now = Instant.now();
@@ -46,14 +50,21 @@ public class TokenBuilder {
   }
 
   /**
-   * Criptografa senha usando Bcrypt
+   * Criptografa senha usando algoritmo Bcrypt com salt.
+   *
+   * @param senha Senha em texto plano
+   * @return Hash Bcrypt da senha
    */
   public String criptografarSenha(String senha) {
     return BcryptUtil.bcryptHash(senha);
   }
 
   /**
-   * Verifica se senha fornecida corresponde à senha criptografada
+   * Verifica se senha fornecida corresponde ao hash Bcrypt armazenado.
+   *
+   * @param senhaFornecida Senha em texto plano fornecida pelo usuário
+   * @param senhaCriptografada Hash Bcrypt armazenado no banco de dados
+   * @return true se a senha corresponde, false caso contrário
    */
   public boolean verificarSenha(String senhaFornecida, String senhaCriptografada) {
     return BcryptUtil.matches(senhaFornecida, senhaCriptografada);

@@ -13,6 +13,10 @@ import org.pablofsc.service.helper.CompatibilityScoreCalculator;
 
 import java.util.List;
 
+/**
+ * Serviço responsável por recomendar produtos para clientes.
+ * Utiliza algoritmo de compatibilidade para ordenar produtos por aderência ao perfil.
+ */
 @ApplicationScoped
 public class MotorRecomendacaoService {
 
@@ -28,7 +32,13 @@ public class MotorRecomendacaoService {
   }
 
   /**
-   * Retorna produtos compatíveis com cliente, ordenados por compatibilidade
+   * Retorna produtos compatíveis com cliente, ordenados por compatibilidade decrescente.
+   * Filtra por perfil, tipo de produto e nível de risco aceitável.
+   *
+   * @param cliente Cliente para o qual buscar produtos
+   * @param tipoProdutoDesejado Tipo de produto desejado (ex: Renda Fixa, Ações)
+   * @return Lista de produtos compatíveis ordenados por score de compatibilidade
+   * @throws ProdutoNaoEncontradoException Se nenhum produto do tipo for encontrado
    */
   @Transactional
   public List<ProdutoEntity> obterProdutosCompativeis(ClienteEntity cliente, String tipoProdutoDesejado) {
@@ -63,7 +73,11 @@ public class MotorRecomendacaoService {
   }
 
   /**
-   * Retorna produtos recomendados para um perfil, ordenados por compatibilidade
+   * Retorna produtos recomendados para um perfil, ordenados por compatibilidade decrescente.
+   * Produtos conservadores para perfil conservador, moderados para moderado, etc.
+   *
+   * @param perfil Perfil do cliente (CONSERVADOR, MODERADO ou AGRESSIVO)
+   * @return Lista de produtos compatíveis com o perfil
    */
   public List<ProdutoEntity> obterProdutosPorPerfil(PerfilCliente perfil) {
     return produtoRepository.listAll().stream()
@@ -75,7 +89,12 @@ public class MotorRecomendacaoService {
   }
 
   /**
-   * Retorna o produto mais compatível com cliente
+   * Recomenda o produto mais compatível com o cliente para um tipo e prazo especificados.
+   *
+   * @param cliente Cliente para o qual recomendar
+   * @param tipoProdutoDesejado Tipo de produto (ex: Renda Fixa, Ações)
+   * @param prazoMeses Prazo em meses (parâmetro informativo)
+   * @return Entidade do produto mais compatível
    */
   public ProdutoEntity recomendarProduto(ClienteEntity cliente, String tipoProdutoDesejado, Integer prazoMeses) {
     List<ProdutoEntity> compatíveis = obterProdutosCompativeis(cliente, tipoProdutoDesejado);

@@ -12,6 +12,10 @@ import org.pablofsc.service.helper.TokenBuilder;
 
 import java.time.Duration;
 
+/**
+ * Serviço de autenticação e autorização de usuários.
+ * Responsável por validar credenciais e gerar tokens JWT para acesso.
+ */
 @ApplicationScoped
 public class AutenticacaoService {
 
@@ -33,6 +37,14 @@ public class AutenticacaoService {
     this.tokenBuilder = tokenBuilder;
   }
 
+  /**
+   * Autentica usuário validando email e senha.
+   * Gera token JWT válido por 24 horas após validação bem-sucedida.
+   *
+   * @param request Requisição contendo email e senha
+   * @return Resposta com token JWT, email e nome do usuário
+   * @throws RuntimeException Se email não encontrado ou senha inválida
+   */
   public LoginResponse autenticar(LoginRequest request) {
     UsuarioEntity usuario = usuarioRepository.findByEmail(request.getEmail())
         .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
@@ -46,6 +58,14 @@ public class AutenticacaoService {
     return new LoginResponse(token, usuario.getEmail(), usuario.getNome());
   }
 
+  /**
+   * Registra novo usuário no sistema.
+   * Criptografa senha e atribui role padrão (USER).
+   *
+   * @param request Requisição contendo email e senha
+   * @return Entidade do usuário criado
+   * @throws RuntimeException Se email já foi cadastrado
+   */
   @Transactional
   public UsuarioEntity registrar(LoginRequest request) {
     if (usuarioRepository.findByEmail(request.getEmail()).isPresent()) {

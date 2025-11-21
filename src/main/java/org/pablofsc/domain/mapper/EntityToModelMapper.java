@@ -8,7 +8,8 @@ import org.pablofsc.domain.model.Produto;
 import org.pablofsc.domain.model.SimulacaoHistorico;
 
 /**
- * Mapeador para converter entidades JPA para objetos de modelo de domínio.
+ * Mapeador utilitário para converter entidades JPA para modelos de domínio.
+ * Encapsula lógica de conversão entre representações de dados.
  */
 public class EntityToModelMapper {
 
@@ -17,7 +18,10 @@ public class EntityToModelMapper {
   }
 
   /**
-   * Converte InvestimentoEntity para modelo Investimento
+   * Converte InvestimentoEntity para modelo Investimento.
+   *
+   * @param entity Entidade JPA de investimento
+   * @return Modelo de domínio ou null se entity for nula
    */
   public static Investimento toInvestimentoModel(InvestimentoEntity entity) {
     if (entity == null) {
@@ -37,7 +41,10 @@ public class EntityToModelMapper {
   }
 
   /**
-   * Converte ProdutoEntity para modelo Produto
+   * Converte ProdutoEntity para modelo Produto.
+   *
+   * @param entity Entidade JPA de produto
+   * @return Modelo de domínio ou null se entity for nula
    */
   public static Produto toProdutoModel(ProdutoEntity entity) {
     if (entity == null) {
@@ -53,7 +60,11 @@ public class EntityToModelMapper {
   }
 
   /**
-   * Converte SimulacaoEntity para modelo SimulacaoHistorico
+   * Converte SimulacaoEntity para modelo SimulacaoHistorico.
+   * Trata caso de produto removido após simulação.
+   *
+   * @param entity Entidade JPA de simulação
+   * @return Modelo de domínio ou null se entity for nula
    */
   public static SimulacaoHistorico toSimulacaoHistoricoModel(SimulacaoEntity entity) {
     if (entity == null) {

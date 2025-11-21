@@ -9,6 +9,10 @@ import org.pablofsc.repository.ClienteRepository;
 import org.pablofsc.repository.SimulacaoRepository;
 import org.pablofsc.service.helper.SimulacaoOrchestrator;
 
+/**
+ * Serviço de simulação de investimento end-to-end.
+ * Coordena validação, recomendação de produtos, cálculo e persistência.
+ */
 @ApplicationScoped
 public class SimulacaoInvestimentoService {
 
@@ -38,6 +42,14 @@ public class SimulacaoInvestimentoService {
       this.orchestrator = orchestrator;
   }
 
+  /**
+   * Executa simulação completa de investimento.
+   * Fluxo: validar parâmetros → obter cliente → recomendar produto →
+   * calcular valor final → persistir histórico.
+   *
+   * @param request Requisição com clienteId, valor, prazo, tipoProduto
+   * @return Resposta com produto recomendado, valor final e data da simulação
+   */
   @Transactional
   public SimulacaoInvestimentoResponse simularInvestimento(SimulacaoInvestimentoRequest request) {
     // Validar parâmetros de entrada (valor, prazo, tipoProduto)

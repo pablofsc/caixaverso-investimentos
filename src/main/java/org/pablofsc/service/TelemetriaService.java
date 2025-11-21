@@ -15,6 +15,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Serviço de telemetria para monitoramento de requisições HTTP.
+ * Registra tempo de resposta por endpoint e fornece relatórios agregados.
+ */
 @ApplicationScoped
 public class TelemetriaService {
 
@@ -25,6 +29,12 @@ public class TelemetriaService {
     this.telemetriaRepository = telemetriaRepository;
   }
 
+  /**
+   * Registra métrica de telemetria de uma requisição.
+   *
+   * @param endpoint Caminho do endpoint (ex: /api/simulacao)
+   * @param tempoRespostaMs Tempo de resposta em milissegundos
+   */
   @Transactional
   public void registrarTelemetria(String endpoint, Long tempoRespostaMs) {
     TelemetriaEntity telemetria = TelemetriaEntity.builder()
@@ -36,6 +46,12 @@ public class TelemetriaService {
     telemetriaRepository.persist(telemetria);
   }
 
+  /**
+   * Obtém relatório completo de telemetria agregado por endpoint.
+   * Inclui contagem de requisições, tempo médio de resposta e período.
+   *
+   * @return Resposta contendo lista de serviços com métricas e período de coleta
+   */
   public TelemetriaResponse obterTelemetrias() {
     List<TelemetriaEntity> todasAsTelemetrias = telemetriaRepository.listAll();
 
@@ -69,6 +85,12 @@ public class TelemetriaService {
     return new TelemetriaResponse(servicos, periodo);
   }
 
+  /**
+   * Cria objeto de serviço de telemetria com agregações de um endpoint.
+   *
+   * @param entry Entrada mapa com endpoint e lista de telemetrias
+   * @return Objeto ServicoTelemetria com contagem e tempo médio calculados
+   */
   private ServicoTelemetria criarServicoTelemetria(Map.Entry<String, List<TelemetriaEntity>> entry) {
     return new ServicoTelemetria(
         entry.getKey(),
@@ -76,6 +98,12 @@ public class TelemetriaService {
         calcularMediaTempoResposta(entry.getValue()));
   }
 
+  /**
+   * Calcula tempo médio de resposta para lista de telemetrias.
+   *
+   * @param telemetrias Lista de registros de telemetria
+   * @return Tempo médio em milissegundos
+   */
   private Long calcularMediaTempoResposta(List<TelemetriaEntity> telemetrias) {
     if (telemetrias.isEmpty()) {
       return 0L;

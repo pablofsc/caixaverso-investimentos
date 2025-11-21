@@ -10,6 +10,10 @@ import org.pablofsc.domain.model.PerfilCliente;
 import org.pablofsc.domain.response.PerfilRiscoResponse;
 import org.pablofsc.repository.ClienteRepository;
 
+/**
+ * Serviço de classificação de perfil de risco de clientes.
+ * Calcula pontuação baseada em frequência, preferência, volume e risco aceito.
+ */
 @ApplicationScoped
 public class PerfilRiscoService {
 
@@ -36,6 +40,13 @@ public class PerfilRiscoService {
         perfil.getTexto());
   }
 
+  /**
+   * Calcula pontuação total de perfil de risco do cliente (0-100).
+   * Componentes: frequência (até 30), preferência (até 25), volume (até 20), risco (até 25).
+   *
+   * @param cliente Cliente para calcular pontuação
+   * @return Pontuação total de perfil (0-100)
+   */
   public Integer calcularPontuacao(ClienteEntity cliente) {
     int pontos = 0;
 
@@ -77,10 +88,13 @@ public class PerfilRiscoService {
   }
 
   /**
-   * Classifica o cliente em uma das três categorias baseado em seu perfil
-   * Conservador: baixa movimentação, foco em liquidez
-   * Moderado: equilíbrio entre liquidez e rentabilidade
-   * Agressivo: busca por alta rentabilidade, maior risco
+   * Classifica o cliente em uma das três categorias baseado em seu perfil.
+   * Conservador: baixa movimentação, foco em liquidez e segurança.
+   * Moderado: equilíbrio entre liquidez e rentabilidade.
+   * Agressivo: busca por alta rentabilidade, maior disposição ao risco.
+   *
+   * @param cliente Cliente a ser classificado
+   * @return Classificação de perfil (CONSERVADOR, MODERADO ou AGRESSIVO)
    */
   public PerfilCliente classificarPerfil(ClienteEntity cliente) {
     int score = 0;

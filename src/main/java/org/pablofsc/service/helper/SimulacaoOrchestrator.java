@@ -17,9 +17,10 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 /**
- * Orquestrador de simulação - agrupa lógica de validação, recomendação, cálculo
- * e persistência.
- * Facilita testes unitários de cada etapa da simulação.
+ * Orquestrador de simulação - coordena validação, recomendação, cálculo e persistência.
+ * Encapsula fluxo completo: validar cliente, recomendar produto, calcular resultado,
+ * e persistir histórico de simulação.
+ * Facilita testes unitários isolando cada etapa.
  */
 public class SimulacaoOrchestrator {
 
@@ -40,7 +41,11 @@ public class SimulacaoOrchestrator {
   }
 
   /**
-   * Valida e obtém cliente do banco de dados
+   * Valida e obtém cliente do banco de dados.
+   *
+   * @param clienteId ID do cliente a obter
+   * @return Entidade do cliente
+   * @throws ClienteNaoEncontradoException Se cliente não existir
    */
   public ClienteEntity validarEObterCliente(Long clienteId) {
     ClienteEntity cliente = clienteRepository.findById(clienteId);
@@ -51,7 +56,13 @@ public class SimulacaoOrchestrator {
   }
 
   /**
-   * Recomenda produto e valida se existe
+   * Recomenda produto para cliente e valida se existe.
+   *
+   * @param cliente Cliente para recomendação
+   * @param tipoProduto Tipo de produto desejado
+   * @param prazoMeses Prazo da simulação
+   * @return Produto recomendado e validado
+   * @throws ProdutoNaoEncontradoException Se nenhum produto for encontrado
    */
   public ProdutoEntity recomendarEValidarProduto(
       ClienteEntity cliente,
@@ -65,7 +76,12 @@ public class SimulacaoOrchestrator {
   }
 
   /**
-   * Calcula resultado da simulação (valor final, simulação modelo)
+   * Calcula resultado da simulação de investimento.
+   *
+   * @param valorInvestido Valor inicial a investir
+   * @param produto Produto com parâmetros de rentabilidade
+   * @param prazoMeses Prazo em meses
+   * @return Modelo de simulação com valor final calculado
    */
   public Simulacao calcularResultado(
       Double valorInvestido,
