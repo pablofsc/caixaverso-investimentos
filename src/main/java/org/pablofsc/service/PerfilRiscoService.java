@@ -27,9 +27,9 @@ public class PerfilRiscoService {
 
     return new PerfilRiscoResponse(
         clienteId,
-        perfil.name(),
+        perfil.getDescricao(),
         pontuacao,
-        perfil.getDescricao());
+        perfil.getTexto());
   }
 
   private Integer calcularPontuacao(ClienteEntity cliente) {

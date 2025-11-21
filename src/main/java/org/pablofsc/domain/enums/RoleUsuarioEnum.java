@@ -1,7 +1,9 @@
 package org.pablofsc.domain.enums;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.pablofsc.domain.enums.serializer.EnumSerializer;
 
 /**
  * Enum que representa os papéis de usuário no sistema.
@@ -10,6 +12,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
+@JsonSerialize(using = EnumSerializer.class)
 public enum RoleUsuarioEnum {
   USER("user", "Usuário comum"),
   ADMIN("admin", "Administrador");
