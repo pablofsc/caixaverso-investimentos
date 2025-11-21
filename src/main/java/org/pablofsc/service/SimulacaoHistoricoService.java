@@ -4,9 +4,9 @@ import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.pablofsc.domain.entity.SimulacaoHistoricoEntity;
+import org.pablofsc.domain.entity.SimulacaoEntity;
 import org.pablofsc.domain.response.SimulacaoHistoricoResponse;
-import org.pablofsc.repository.SimulacaoHistoricoRepository;
+import org.pablofsc.repository.SimulacaoRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class SimulacaoHistoricoService {
 
   @Inject
-  SimulacaoHistoricoRepository repository;
+  SimulacaoRepository repository;
 
   @Transactional
   public List<SimulacaoHistoricoResponse> listarSimulacoes() {
@@ -27,7 +27,7 @@ public class SimulacaoHistoricoService {
         .collect(Collectors.toList());
   }
 
-  private SimulacaoHistoricoResponse toResponse(SimulacaoHistoricoEntity entity) {
+  private SimulacaoHistoricoResponse toResponse(SimulacaoEntity entity) {
     if (entity == null) {
       return null;
     }

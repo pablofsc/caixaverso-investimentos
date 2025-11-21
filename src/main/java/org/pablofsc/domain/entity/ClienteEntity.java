@@ -1,5 +1,6 @@
 package org.pablofsc.domain.entity;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -7,35 +8,65 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entidade que representa um cliente e seu perfil de investimentos.
+ * Armazena preferências, comportamento financeiro e tolerância a risco.
+ */
 @Entity
-@Table(name = "cliente")
+@Table(name = "clientes")
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClienteEntity {
+public class ClienteEntity extends PanacheEntityBase {
 
+  /**
+   * Identificador único do cliente.
+   */
   @Id
   private Long id;
 
+  /**
+   * Nome completo do cliente.
+   */
   @Column(nullable = false)
   private String nome;
 
   // Perfil do cliente
+  /**
+   * Prazo médio preferido para investimentos, em meses (ex: 12 = um ano).
+   */
   @Column(name = "prazo_medio_preferido")
-  private Integer prazoMedioPreferido; // em meses (ex: 12 = um ano)
+  private Integer prazoMedioPreferido;
 
+  /**
+   * Preferência do cliente entre liquidez, equilíbrio ou rentabilidade.
+   * Valores possíveis: "LIQUIDEZ", "EQUILIBRIO", "RENTABILIDADE".
+   */
   @Column(name = "preferencia_liquidez_rentabilidade")
-  private String preferenciaRentLiq; // "LIQUIDEZ", "EQUILIBRIO", "RENTABILIDADE"
+  private String preferenciaRentLiq;
 
+  /**
+   * Nível máximo de risco aceitável pelo cliente.
+   * Valores possíveis: "Muito Baixo", "Baixo", "Alto", "Muito Alto".
+   */
   @Column(name = "risco_maximo_aceitavel")
-  private String riscoMaximoAceitavel; // "Muito Baixo", "Baixo", "Alto", "Muito Alto"
+  private String riscoMaximoAceitavel;
 
+  /**
+   * Volume total investido pelo cliente, em reais (R$).
+   */
   @Column(name = "volume_total_investido")
-  private Double volumeTotalInvestido; // em R$
+  private Double volumeTotalInvestido;
 
+  /**
+   * Frequência de movimentações financeiras do cliente.
+   * Valores possíveis: "BAIXA", "MEDIA", "ALTA".
+   */
   @Column(name = "frequencia_movimentacoes")
-  private String frequenciaMovimentacoes; // "BAIXA", "MEDIA", "ALTA"
+  private String frequenciaMovimentacoes;
 }

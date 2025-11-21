@@ -4,9 +4,9 @@ import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.pablofsc.domain.entity.SimulacaoHistoricoEntity;
+import org.pablofsc.domain.entity.SimulacaoEntity;
 import org.pablofsc.domain.response.SimulacaoPorProdutoDiaResponse;
-import org.pablofsc.repository.SimulacaoHistoricoRepository;
+import org.pablofsc.repository.SimulacaoRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 public class SimulacaoPorProdutoDiaService {
 
   @Inject
-  SimulacaoHistoricoRepository repository;
+  SimulacaoRepository repository;
 
   @Transactional
   public List<SimulacaoPorProdutoDiaResponse> listarSimulacoesPorProdutoDia() {
-    List<SimulacaoHistoricoEntity> historicos = repository.listAll(Sort.by("dataSimulacao").descending());
+    List<SimulacaoEntity> historicos = repository.listAll(Sort.by("dataSimulacao").descending());
 
-    Map<ProdutoDiaKey, List<SimulacaoHistoricoEntity>> agrupados = historicos.stream()
+    Map<ProdutoDiaKey, List<SimulacaoEntity>> agrupados = historicos.stream()
       .collect(Collectors.groupingBy(
         this::produtoDiaKey,
         LinkedHashMap::new,
@@ -38,12 +38,12 @@ public class SimulacaoPorProdutoDiaService {
       .collect(Collectors.toCollection(ArrayList::new));
   }
 
-  private SimulacaoPorProdutoDiaResponse responseFromEntry(Map.Entry<ProdutoDiaKey, List<SimulacaoHistoricoEntity>> entry) {
+  private SimulacaoPorProdutoDiaResponse responseFromEntry(Map.Entry<ProdutoDiaKey, List<SimulacaoEntity>> entry) {
     ProdutoDiaKey key = entry.getKey();
-    List<SimulacaoHistoricoEntity> registros = entry.getValue();
+    List<SimulacaoEntity> registros = entry.getValue();
     
     double mediaValorFinal = registros.stream()
-        .mapToDouble(SimulacaoHistoricoEntity::getValorFinal)
+        .mapToDouble(SimulacaoEntity::getValorFinal)
         .average()
         .orElse(0.0);
 
@@ -54,7 +54,7 @@ public class SimulacaoPorProdutoDiaService {
         mediaValorFinal);
   }
 
-  private ProdutoDiaKey produtoDiaKey(SimulacaoHistoricoEntity entity) {
+  private ProdutoDiaKey produtoDiaKey(SimulacaoEntity entity) {
     String nomeProduto = entity.getProduto() != null ? entity.getProduto().getNome() : "Produto removido";
     return new ProdutoDiaKey(nomeProduto, entity.getDataSimulacao().toLocalDate());
   }

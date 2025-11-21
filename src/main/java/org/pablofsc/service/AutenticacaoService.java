@@ -59,7 +59,7 @@ public class AutenticacaoService {
         .groups(usuario.getRole())
         .claim("email", usuario.getEmail())
         .claim("nome", usuario.getNome())
-        .claim("userId", usuario.id)
+        .claim("userId", usuario.getId())
         .claim("role", usuario.getRole())
         .audience("caixaverso-investimentos")
         .issuedAt(now)
