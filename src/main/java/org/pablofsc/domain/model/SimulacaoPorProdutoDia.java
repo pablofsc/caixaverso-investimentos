@@ -1,4 +1,4 @@
-package org.pablofsc.domain.response;
+package org.pablofsc.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SimulacaoPorProdutoDiaResponse {
+public class SimulacaoPorProdutoDia {
 
   private String produto;
   private LocalDate data;

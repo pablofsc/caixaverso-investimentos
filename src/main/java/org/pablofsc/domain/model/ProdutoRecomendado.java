@@ -1,4 +1,4 @@
-package org.pablofsc.domain.response;
+package org.pablofsc.domain.model;
 
 import org.pablofsc.domain.enums.NivelRiscoEnum;
 import org.pablofsc.domain.enums.TipoProdutoEnum;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProdutoRecomendadoResponse {
+public class ProdutoRecomendado {
 
   private Long id;
   private String nome;

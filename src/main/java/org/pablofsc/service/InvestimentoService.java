@@ -3,7 +3,7 @@ package org.pablofsc.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.pablofsc.domain.entity.InvestimentoEntity;
-import org.pablofsc.domain.response.InvestimentoResponse;
+import org.pablofsc.domain.model.Investimento;
 import org.pablofsc.repository.InvestimentoRepository;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class InvestimentoService {
   @Inject
   InvestimentoRepository investimentoRepository;
 
-  public List<InvestimentoResponse> obterInvestimentosPorCliente(Long clienteId) {
+  public List<Investimento> obterInvestimentosPorCliente(Long clienteId) {
     return investimentoRepository.find("cliente.id", clienteId)
         .page(0, Integer.MAX_VALUE)
         .list()
@@ -24,8 +24,8 @@ public class InvestimentoService {
         .toList();
   }
 
-  private InvestimentoResponse toResponse(InvestimentoEntity investimento) {
-    return new InvestimentoResponse(
+  private Investimento toResponse(InvestimentoEntity investimento) {
+    return new Investimento(
         investimento.getId(),
         investimento.getProduto().getTipo(),
         investimento.getValor(),

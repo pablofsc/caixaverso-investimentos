@@ -5,7 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.pablofsc.domain.entity.SimulacaoEntity;
-import org.pablofsc.domain.response.SimulacaoHistoricoResponse;
+import org.pablofsc.domain.model.SimulacaoHistorico;
 import org.pablofsc.repository.SimulacaoRepository;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class SimulacaoHistoricoService {
   SimulacaoRepository repository;
 
   @Transactional
-  public List<SimulacaoHistoricoResponse> listarSimulacoes() {
+  public List<SimulacaoHistorico> listarSimulacoes() {
     return repository
         .listAll(Sort.by("id").ascending())
         .stream()
@@ -27,12 +27,12 @@ public class SimulacaoHistoricoService {
         .collect(Collectors.toList());
   }
 
-  private SimulacaoHistoricoResponse toResponse(SimulacaoEntity entity) {
+  private SimulacaoHistorico toResponse(SimulacaoEntity entity) {
     if (entity == null) {
       return null;
     }
 
-    return new SimulacaoHistoricoResponse(
+    return new SimulacaoHistorico(
         entity.getId(),
         entity.getCliente() != null ? entity.getCliente().getId() : null,
         entity.getProduto() != null ? entity.getProduto().getNome() : "Produto removido",

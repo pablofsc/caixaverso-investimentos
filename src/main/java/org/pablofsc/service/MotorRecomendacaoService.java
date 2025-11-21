@@ -5,7 +5,6 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.pablofsc.domain.entity.ClienteEntity;
 import org.pablofsc.domain.entity.ProdutoEntity;
-import org.pablofsc.domain.enums.FrequenciaMovimentacoesEnum;
 import org.pablofsc.domain.enums.NivelRiscoEnum;
 import org.pablofsc.domain.exception.ProdutoNaoEncontradoException;
 import org.pablofsc.domain.model.PerfilCliente;

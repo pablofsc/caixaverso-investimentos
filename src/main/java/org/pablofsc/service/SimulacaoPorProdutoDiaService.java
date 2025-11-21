@@ -5,7 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.pablofsc.domain.entity.SimulacaoEntity;
-import org.pablofsc.domain.response.SimulacaoPorProdutoDiaResponse;
+import org.pablofsc.domain.model.SimulacaoPorProdutoDia;
 import org.pablofsc.repository.SimulacaoRepository;
 
 import java.time.LocalDate;
@@ -23,7 +23,7 @@ public class SimulacaoPorProdutoDiaService {
   SimulacaoRepository repository;
 
   @Transactional
-  public List<SimulacaoPorProdutoDiaResponse> listarSimulacoesPorProdutoDia() {
+  public List<SimulacaoPorProdutoDia> listarSimulacoesPorProdutoDia() {
     List<SimulacaoEntity> historicos = repository.listAll(Sort.by("dataSimulacao").descending());
 
     Map<ProdutoDiaKey, List<SimulacaoEntity>> agrupados = historicos.stream()
@@ -38,7 +38,7 @@ public class SimulacaoPorProdutoDiaService {
       .collect(Collectors.toCollection(ArrayList::new));
   }
 
-  private SimulacaoPorProdutoDiaResponse responseFromEntry(Map.Entry<ProdutoDiaKey, List<SimulacaoEntity>> entry) {
+  private SimulacaoPorProdutoDia responseFromEntry(Map.Entry<ProdutoDiaKey, List<SimulacaoEntity>> entry) {
     ProdutoDiaKey key = entry.getKey();
     List<SimulacaoEntity> registros = entry.getValue();
     
@@ -47,7 +47,7 @@ public class SimulacaoPorProdutoDiaService {
         .average()
         .orElse(0.0);
 
-    return new SimulacaoPorProdutoDiaResponse(
+    return new SimulacaoPorProdutoDia(
         key.produto(),
         key.data(),
         registros.size(),
@@ -59,9 +59,9 @@ public class SimulacaoPorProdutoDiaService {
     return new ProdutoDiaKey(nomeProduto, entity.getDataSimulacao().toLocalDate());
   }
 
-  private Comparator<SimulacaoPorProdutoDiaResponse> comparatorPorDataEEProduto() {
-    return Comparator.comparing(SimulacaoPorProdutoDiaResponse::getData).reversed()
-        .thenComparing(SimulacaoPorProdutoDiaResponse::getProduto);
+  private Comparator<SimulacaoPorProdutoDia> comparatorPorDataEEProduto() {
+    return Comparator.comparing(SimulacaoPorProdutoDia::getData).reversed()
+        .thenComparing(SimulacaoPorProdutoDia::getProduto);
   }
 
   private record ProdutoDiaKey(String produto, LocalDate data) {
