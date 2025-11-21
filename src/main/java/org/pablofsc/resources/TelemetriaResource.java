@@ -6,6 +6,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.pablofsc.domain.response.TelemetriaResponse;
 import org.pablofsc.service.TelemetriaService;
 
 @Path("/telemetria")
@@ -16,7 +17,8 @@ public class TelemetriaResource {
   TelemetriaService service;
 
   @GET
-  public Response obterTelemetria() {
-    return Response.ok(service.obterTelemetria()).build();
+  public Response obterTelemetrias() {
+    TelemetriaResponse telemetria = service.obterTelemetrias();
+    return Response.ok(telemetria).build();
   }
 }

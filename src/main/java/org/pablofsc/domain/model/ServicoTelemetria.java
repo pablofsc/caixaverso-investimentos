@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class ServicoTelemetria {
 
   private String nome;
-  private Integer quantidadeChamadas;
-  private Integer mediaTempoRespostaMs;
+  private Long quantidadeChamadas;
+  private Long mediaTempoRespostaMs;
 }
