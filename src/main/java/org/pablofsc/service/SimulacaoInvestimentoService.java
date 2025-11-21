@@ -37,6 +37,9 @@ public class SimulacaoInvestimentoService {
   @Inject
   CalculoSimulacaoService calculoService;
 
+  @Inject
+  MotorRecomendacaoService motorRecomendacao;
+
   @Transactional
   public SimulacaoInvestimentoResponse simularInvestimento(SimulacaoInvestimentoRequest request) {
     // Validar parâmetros de entrada (valor, prazo, tipoProduto)
@@ -48,8 +51,12 @@ public class SimulacaoInvestimentoService {
       throw new ClienteNaoEncontradoException(request.getClienteId());
     }
 
-    // Buscar produto no DB pelo tipo
-    ProdutoEntity produtoPersistido = produtoRepository.findByTipo(request.getTipoProduto());
+    // Usar motor de recomendação para buscar o melhor produto para o cliente
+    ProdutoEntity produtoPersistido = motorRecomendacao.recomendarProduto(
+        cliente,
+        request.getTipoProduto(),
+        request.getPrazoMeses());
+
     if (produtoPersistido == null) {
       throw new ProdutoNaoEncontradoException(request.getTipoProduto());
     }
