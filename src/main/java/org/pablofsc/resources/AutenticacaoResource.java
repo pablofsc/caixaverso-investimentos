@@ -15,6 +15,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.pablofsc.domain.request.LoginRequest;
+import org.pablofsc.domain.response.ErrorResponse;
 import org.pablofsc.domain.response.LoginResponse;
 import org.pablofsc.domain.response.ValidationErrorResponse;
 import org.pablofsc.service.AutenticacaoService;
@@ -72,7 +73,7 @@ public class AutenticacaoResource {
       return Response.ok(response).build();
     } catch (Exception e) {
       return Response.status(Response.Status.UNAUTHORIZED)
-          .entity(new ErrorResponse(e.getMessage()))
+          .entity(new ErrorResponse("Credenciais inválidas", "ERR_AUTH_401", e.getMessage()))
           .build();
     }
   }
@@ -104,12 +105,9 @@ public class AutenticacaoResource {
           .build();
     } catch (Exception e) {
       return Response.status(Response.Status.BAD_REQUEST)
-          .entity(new ErrorResponse(e.getMessage()))
+          .entity(new ErrorResponse("Erro ao registrar usuário", "ERR_REGISTER_400", e.getMessage()))
           .build();
     }
-  }
-
-  public record ErrorResponse(String mensagem) {
   }
 
   public record MessageResponse(String mensagem) {
